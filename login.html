@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="dist/output.css" type="text/css" rel="stylesheet">
+    <title>Splash Car Wash</title>
+</head>
+
+<body">
+
+    <div class="bg-gray-200 h-screen overflow-hidden flex items-center justify-center">
+        <div class="w-10/12 lg:w-9/12 xl:w-7/12 flex">
+            <div class="h-auto hidden lg:block lg:w-1/2 rounded-lg lg:rounded-r-none">
+                <div class="flex justify-self-center">
+                    <img src="./assets/splash.png">
+                </div>
+            </div>
+            <div class="w-full lg:w-1/2 bg-white rounded-lg lg:rounded-l-none py-24 px-12">
+                <h3 class="font-bold text-3xl text-red-600 text-center tracking-widest uppercase mb-4">Login</h3>
+                <form class="bg-white">
+
+                    <div class="mb-2">
+                        <label class="block mb-2 text-sm font-bold" for="email">
+                            Email
+                        </label>
+                        <input type="text" id="email"
+                            class="w-full p-3 text-md border rounded shadow focus:outline-none focus:shadow-outline"
+                            placeholder="email" />
+                    </div>
+                    <div class="flex justify-center">
+                        <div class="mb-2 w-full">
+                            <label class="block mb-2 text-sm font-bold" for="email">
+                                User
+                            </label>
+                            <select id="user"
+                                class="form-select form-select-lg mb-3 appearance-none block w-full       text-gray-700   bg-white bg-no-repeat p-3   border border-solid border-gray-300  rounded   transition ease-in-out   m-0    focus:text-gray-700 focus:bg-white focus:gray-blue-600 focus:outline-none"
+                                aria-label=".form-select-lg example">
+                                <option selected value="1">Manager</option>
+                                <option value="2">Administrator</option>
+                            </select>
+
+
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label class="block mb-2 text-sm font-bold" for="password">
+                            Password
+                        </label>
+                        <input type="password" id="password"
+                            class="w-full p-3 text-md border rounded shadow focus:outline-none focus:shadow-outline"
+                            placeholder="***********" />
+                    </div>
+                    <div class="mb-2">
+                        <button class="w-full p-3 font-bold text-white bg-red-500 rounded-full focus:outline-none"
+                            id="btn-login" type="button">
+                            Sign In
+                        </button>
+                    </div>
+                    <hr class="mb-4 border-t" />
+                    <!-- <div class="text-sm text-center">
+                    <a href="#">Create an Account</a>
+                    <a href="#" class="text-blue-500 pl-2">Forgot Password ?</a>
+                </div> -->
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let $ = require('jquery')
+        let fs = require('fs')
+        const ipc = require('electron').ipcRenderer
+
+
+        $('#btn-login').on('click', () => {
+            var email = $('#email').val()
+            var password = $('#password').val()
+            var user = $('#user').val()
+            console.log(`${email} for ${user}  and ${password}`)
+
+            if (user == 1) {
+                ipc.sendSync('manager', email)
+
+            } else if (user == 2) {
+                ipc.sendSync('admin', email)
+            }
+        })
+    </script>
+    </body>
+
+</html>
