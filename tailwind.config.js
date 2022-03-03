@@ -1,7 +1,5 @@
 module.exports = {
-  content: [
-    './**/*.{html,js}'
-  ],
+  content: ["./login.html","./manager.html","./admin.html"],
   theme: {
     extend: {},
   },

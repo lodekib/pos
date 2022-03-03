@@ -2,67 +2,59 @@ const { Certificate } = require('crypto')
 const { app, BrowserWindow,ipcMain,screen} = require('electron')
 const path = require('path')
 const url = require('url')
+const { createTransaction, createServices, createRollback, createExpenditure, createConcerns,
+    createSalaryUpdate,createEmployees,createEmployee,createProfile,createSettings
+} = require('./manage/manager')
+
 let win
-var isManager
 let win2
 let child
 function createWindows() {
     const { width, height } = screen.getPrimaryDisplay().workAreaSize
-    win = new BrowserWindow({
-        width: width,
-        modal:true,
-        height: height,
-        show: false,
-        webPreferences: {
+    win = new BrowserWindow({ width: width,modal:true,height: height,show: false,webPreferences: {
             nodeIntegration: true,
             contextIsolation:false
-        }
-       
+        } 
     })
     // win.removeMenu(true)
-    win.loadFile(path.join(__dirname, '/manager/index.html'),)
-
-    win2 = new BrowserWindow({
-        width: width,
-        height: height,
-        show: false,
-        webPreferences: {
+    win.loadFile(path.join(__dirname, './manager.html'),)
+    win2 = new BrowserWindow({width: width,  height: height,show: false,webPreferences: {
             nodeIntegration: true,
             contextIsolation: false
         }
 
     })
-    win2.loadFile(path.join(__dirname,'/admin/index.html'))
+    win2.loadFile(path.join(__dirname,'./admin.html'))
     
-
-    child = new BrowserWindow({
-        opacity: 0.75,
-        roundedCorners:true,
-        transparent:true,
-        width: width,
-        height: height,
-        frame: true,
-        webPreferences: {
+    child = new BrowserWindow({opacity: 0.75,roundedCorners:true,transparent:true, width: width,height: height,frame: true,webPreferences: {
             nodeIntegration: true,
             contextIsolation:false
         }
     })
      child.removeMenu(true)
-    child.loadFile(path.join(__dirname, 'login.html'))
-
+    child.loadFile(path.join(__dirname, './login.html'))
+    
 }
 
 ipcMain.on('manager', (arg) => {
-    console.log('showing manager dashboard')
         win.show()
-        child.hide()
-        
+        child.hide()       
 })
 ipcMain.on('admin', () => {
-    console.log('showing admin dashboard')
     win2.show()
     child.hide()
 })
+ipcMain.on('transaction', () => createTransaction(win))
+ipcMain.on('rollback', () => createRollback(win))
+ipcMain.on('expenditure', () => createExpenditure(win))
+ipcMain.on('services', () => createServices(win))
+ipcMain.on('concerns', () => createConcerns(win))
+ipcMain.on('updatesalary', () =>createSalaryUpdate(win))
+ipcMain.on('employees', () =>createEmployees(win))
+ipcMain.on('newemployee', ()=> createEmployee(win))
+ipcMain.on('profile', () => createProfile(win))
+ipcMain.on('settings',()=> createSettings(win))
+ipcMain.on('logout',()=> child.show())
 
 app.whenReady().then(() => {
     createWindows()

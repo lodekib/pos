@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron .",
     "postinstall": "electron-rebuild",
-    "build": "tailwindcss build  -i ./src/input.css -o ./dist/output.css"
+    "build": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
   },
   "author": "brooksys technologies",
   "license": "MIT",
