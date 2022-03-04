@@ -1,14 +1,16 @@
-const { Certificate } = require('crypto')
 const { app, BrowserWindow,ipcMain,screen} = require('electron')
 const path = require('path')
 const url = require('url')
 const { createTransaction, createServices, createRollback, createExpenditure, createConcerns,
-    createSalaryUpdate,createEmployees,createEmployee,createProfile,createSettings
+    createSalaryUpdate, createEmployees, createEmployee, createProfile, createSettings,
+    createReports,createReward, createClients
 } = require('./manage/manager')
+const { print } = require('./receipt')
 
 let win
 let win2
 let child
+let printers
 function createWindows() {
     const { width, height } = screen.getPrimaryDisplay().workAreaSize
     win = new BrowserWindow({ width: width,modal:true,height: height,show: false,webPreferences: {
@@ -16,6 +18,7 @@ function createWindows() {
             contextIsolation:false
         } 
     })
+    printers = win.webContents.getPrintersAsync()
     // win.removeMenu(true)
     win.loadFile(path.join(__dirname, './manager.html'),)
     win2 = new BrowserWindow({width: width,  height: height,show: false,webPreferences: {
@@ -53,8 +56,15 @@ ipcMain.on('updatesalary', () =>createSalaryUpdate(win))
 ipcMain.on('employees', () =>createEmployees(win))
 ipcMain.on('newemployee', ()=> createEmployee(win))
 ipcMain.on('profile', () => createProfile(win))
-ipcMain.on('settings',()=> createSettings(win))
-ipcMain.on('logout',()=> child.show())
+ipcMain.on('settings', () => createSettings(win))
+ipcMain.on('reports', () => createReports(win))
+ipcMain.on('reward', () => createReward(win))
+ipcMain.on('clients', () => createClients(win))
+ipcMain.on('logout', () => child.show())
+
+ipcMain.on('receipt', (event,args) => {
+  console.log(args)
+})
 
 app.whenReady().then(() => {
     createWindows()

@@ -1,46 +1,64 @@
 const { BrowserWindow } = require('electron') 
 
+const webPreferences = {
+    nodeIntegration: true,
+    contextIsolation:false
+}
+
 module.exports = {
     createTransaction: (parent)=>{
-        var transWindow = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
-        transWindow.loadFile('./manage/new_transaction.html')
+        var window = new BrowserWindow({ parent: parent, width: 800, height: 600, modal: true,webPreferences:webPreferences})
+        // window.removeMenu(true)
+        window.loadFile('./new_transaction.html')
     },
     createRollback: (parent)=>{
-        var transWindow = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
-        transWindow.loadFile('./manage/rollback.html')
+        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        window.loadFile('./rollback.html')
     },
     createExpenditure: (parent)=>{
-        var transWindow = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
-        transWindow.loadFile('./manage/expenditure.html')
+        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        window.loadFile('./expenditure.html')
     },
     createServices: (parent)=>{
-        var transWindow = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
-        transWindow.loadFile('./manage/services.html')
+        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        window.loadFile('./services.html')
     },
     createConcerns: (parent)=>{
-        var transWindow = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
-        transWindow.loadFile('./manage/concerns.html')
+        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        window.loadFile('./concerns.html')
     },
     createSalaryUpdate: (parent) => {
-        var transWindow = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
-        transWindow.loadFile('./manage/salaryupdate.html')
+        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        window.loadFile('./salaryupdate.html')
     },
     createEmployees: (parent) => {
-        var transWindow = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
-        transWindow.loadFile('./manage/employees.html')
+        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        window.loadFile('./employees.html')
     },
     createEmployee: (parent) => {
-        var transWindow = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
-        transWindow.loadFile('./manage/newemployee.html')
+        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        window.loadFile('./newemployee.html')
     },
     createProfile: (parent) => {
-        var transWindow = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
-        transWindow.loadFile('./manage/profile.html')
+        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        window.loadFile('./profile.html')
     },
     createSettings: (parent) => {
-        var transWindow = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
-        transWindow.loadFile('./manage/settings.html')
+        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        window.loadFile('./settings.html')
     },
-    
+    createReports: (parent) => {
+        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        window.loadFile('./reports.html')
+    },
+    createReward: (parent) => {
+        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        window.loadFile('./reward.html')
+    },
+    createClients: (parent) => {
+        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        window.loadFile('./clients.html')
+    },
+
 }
 

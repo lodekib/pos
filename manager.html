@@ -195,16 +195,14 @@
         <div class="header-content flex items-center flex-row">
           <form action="#">
             <div class="hidden md:flex relative">
-              <div class="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
-                <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  viewBox="0 0 24 24" stroke="currentColor">
-                  <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
 
-              <input id="search" type="text" name="search"
-                class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-300 w-full h-10 focus:outline-none focus:border-indigo-400"
-                placeholder="Search..." />
+              <button id="reports"
+                class="hover:bg-grey text-grey-darkest font-bold py-2 px-4 border rounded inline-flex items-center">
+                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
+                </svg>
+                <span>Reports</span>
+              </button>
             </div>
             <div class="flex md:hidden">
               <a href="#" class="flex items-center justify-center h-10 w-10 border-transparent">
@@ -240,12 +238,10 @@
                   </svg>
                 </div>
                 <div>
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                  <p id="clients" class=" cursor-pointer mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
                     Total clients
                   </p>
-                  <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                    145
-                  </p>
+
                 </div>
               </div>
             </div>
@@ -297,10 +293,9 @@
                   </svg>
                 </div>
                 <div>
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Pending contacts
+                  <p id="reward" class=" cursor-pointer mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                    Reward Client
                   </p>
-                  <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">35</p>
                 </div>
               </div>
             </div>
@@ -424,6 +419,15 @@
     })
     $('#settings').on('click', () => {
       ipc.send('settings')
+    })
+    $('#reports').on('click', () => {
+      ipc.send('reports')
+    })
+    $('#reward').on('click', () => {
+      ipc.send('reward')
+    })
+    $('#clients').on('click', () => {
+      ipc.send('clients')
     })
     $('#logout').on('click', () => {
       ipc.send('logout')

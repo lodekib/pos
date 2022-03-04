@@ -16,6 +16,7 @@
     "tailwindcss": "^3.0.23"
   },
   "dependencies": {
+    "electron-pos-printer": "^1.2.4",
     "fs": "^0.0.1-security",
     "jquery": "^3.6.0",
     "sqlite3": "^5.0.2"
