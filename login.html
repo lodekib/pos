@@ -36,8 +36,8 @@
                             <select id="user"
                                 class="form-select form-select-lg mb-3 appearance-none block w-full       text-gray-700   bg-white bg-no-repeat p-3   border border-solid border-gray-300  rounded   transition ease-in-out   m-0    focus:text-gray-700 focus:bg-white focus:gray-blue-600 focus:outline-none"
                                 aria-label=".form-select-lg example">
-                                <option selected value="1">Manager</option>
-                                <option value="2">Administrator</option>
+                                <option selected value="manager">Manager</option>
+                                <option value="admin">Administrator</option>
                             </select>
 
 
@@ -73,17 +73,17 @@
         const ipc = require('electron').ipcRenderer
 
 
+
         $('#btn-login').on('click', () => {
             var email = $('#email').val()
             var password = $('#password').val()
             var user = $('#user').val()
-            console.log(`${email} for ${user}  and ${password}`)
 
-            if (user == 1) {
-                ipc.sendSync('manager', email)
+            if (user == 'manager') {
+                ipc.send('manager', [email, user, password])
 
-            } else if (user == 2) {
-                ipc.sendSync('admin', email)
+            } else if (user == 'admin') {
+                ipc.send('admin', email)
             }
         })
     </script>

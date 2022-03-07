@@ -8,7 +8,7 @@ const webPreferences = {
 module.exports = {
     createTransaction: (parent)=>{
         var window = new BrowserWindow({ parent: parent, width: 800, height: 600, modal: true,webPreferences:webPreferences})
-        // window.removeMenu(true)
+        window.removeMenu(true)
         window.loadFile('./new_transaction.html')
     },
     createRollback: (parent)=>{
@@ -28,7 +28,8 @@ module.exports = {
         window.loadFile('./concerns.html')
     },
     createSalaryUpdate: (parent) => {
-        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        var window = new BrowserWindow({ parent: parent, width: 600, height: 400, modal: true, webPreferences: webPreferences })
+        window.removeMenu(true)
         window.loadFile('./salaryupdate.html')
     },
     createEmployees: (parent) => {
@@ -36,7 +37,7 @@ module.exports = {
         window.loadFile('./employees.html')
     },
     createEmployee: (parent) => {
-        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        var window = new BrowserWindow({ parent: parent, width: 800, height: 500, modal: true,webPreferences:webPreferences })
         window.loadFile('./newemployee.html')
     },
     createProfile: (parent) => {

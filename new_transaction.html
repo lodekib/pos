@@ -13,54 +13,51 @@
         <form class="py-5">
             <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        for="grid-first-name">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="first_name">
                         Client First Name
                     </label>
                     <input
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                        id="first_name" type="text" placeholder="Jane">
+                        id="first_name" name="first_name" type="text" placeholder="Jane">
                 </div>
                 <div class="w-full md:w-1/2 px-3">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        for="grid-last-name">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="last_name">
                         Client Last Name
                     </label>
                     <input
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="last_name" type="text" placeholder="Doe">
+                        id="last_name" name="last_name" type="text" placeholder="Doe">
                 </div>
             </div>
             <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        for="grid-first-name">
+                        for="number_plate">
                         Client Car Plate
                     </label>
                     <input
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                        id="number_plate" type="text" placeholder="KBX 567D">
+                        id="number_plate" name="number_plate" type="text" placeholder="car plate">
                 </div>
                 <div class="w-full md:w-1/2 px-3">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        for="grid-last-name">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="car_type">
                         Served By
                     </label>
                     <input
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="served_by" type="text" placeholder="Doe">
+                        id="served_by" name="served_by" type="text" placeholder="Doe">
                 </div>
             </div>
 
             <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full px-3">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="car-type">
                         Car Type
                     </label>
                     <div class="relative">
                         <select
                             class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="car_type">
+                            id="car_type" name="car_type">
                             <option selected value="saloon">Saloon Car</option>
                             <option value="lorry">Lorry</option>
                             <option value="suvs">SUVs</option>
@@ -80,16 +77,17 @@
             </div>
             <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full px-3">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        for="service_type">
                         Service Type
                     </label>
                     <div class="relative">
                         <select
                             class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="service_type">
-                            <option selected value="full body">Full Body</option>
-                            <option value="tyre cleaning">Tyre Cleaning</option>
-                            <option value="carpets">Carpets</option>
+                            id="service_type" name="service_type">
+                            <option value="Full body">Full Body</option>
+                            <option value="Tyre cleaning">Tyre Cleaning</option>
+                            <option value="Carpets">Carpets</option>
                         </select>
                         <div
                             class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -103,42 +101,42 @@
 
             <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        for="grid-first-name">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="amount">
                         Amount
                     </label>
                     <input
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                        id="amount" type="number">
+                        id="amount" name="amount" type="number">
                 </div>
                 <div class="w-full md:w-1/2 px-3">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        for="grid-last-name">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="date">
                         Date
                     </label>
                     <input
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="date" type="datetime-local" placeholder="Doe">
+                        id="date" name="date" type="datetime-local" placeholder="Doe">
                 </div>
             </div>
 
-            <button id="receipt" class="bg-amber-800 hover:bg-grey-300 text-white font-bold py-2 px-4 rounded-full">
+            <button id="receipt" class="bg-amber-800 hover:bg-gray-300 text-white font-bold py-2 px-4 rounded">
                 Print Receipt
             </button>
         </form>
     </div>
 
+
     <script>
         let $ = require('jquery')
         let ipc = require('electron').ipcRenderer
 
-        var number_plate = $('#number_plate').val()
-        var served_by = $('#served_by').val()
-        var service_type = $('#service_type').val()
-        var amount = $('#amount').val()
 
         $('#receipt').on('click', () => {
-            ipc.send('receipt', [number_plate, served_by, service_type, amount])
+            var number_plate = $('#number_plate').val()
+            var served_by = $('#served_by').val()
+            var service_type = $('#service_type').val()
+            var amount = $('#amount').val()
+            var car_type = $('#car_type').val()
+            ipc.send('receipt', [number_plate, service_type, amount, served_by])
         })
 
     </script>

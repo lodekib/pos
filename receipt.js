@@ -3,7 +3,7 @@ const path = require("path");
 
 var date = Date()
 
-    function print(){
+    function print(car_plate,service_type,amount,served_by){
       const options = {
         preview: false,             // Preview in window or print
         width: '200px',               //  width of content body
@@ -78,7 +78,7 @@ var date = Date()
         {
             type: 'text',
             position: 'center',
-            value: 'KBL 546X',
+            value: `${car_plate}`,
             style: `color:black;font-size:25px`,
 
         },
@@ -87,10 +87,10 @@ var date = Date()
             style: 'border: 1px solid #ddd',
             tableHeader: ['Service', 'Price'],
             tableBody: [
-                ['Matts clean', 200],
+                [`${service_type}`,amount],
                 ['Full body', 1000],
             ],
-            tableFooter: ['Welcome again, Served by Jeremy'],
+            tableFooter: [`Welcome again, Served by ${served_by}`],
             tableHeaderStyle: 'background-color: #000; color: black;',
             tableBodyStyle: 'border: 0.5px solid #ddd',
             tableFooterStyle: 'background-color: #000; color: black;',
