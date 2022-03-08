@@ -3,13 +3,81 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="dist/output.css" rel="stylesheet" type="text/css">
     <title>Reward Client</title>
 </head>
 
 <body>
-    <h4>Reward Client</h4>
+    <div class="md:flex md:justify-center mb-6">
+        <form class="py-5 px-5">
+            <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="first_name">
+                        Client First Name
+                    </label>
+                    <input
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        id="first_name" name="first_name" type="text" placeholder="Jane">
+                </div>
+                <div class="w-full md:w-1/2 px-3">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="last_name">
+                        Client Last Name
+                    </label>
+                    <input
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        id="last_name" name="last_name" type="text" placeholder="Doe">
+                </div>
+            </div>
+
+            <div class="w-full md:w-1/2  mb-6 md:mb-0">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="number_plate">
+                    Client Car Plate
+                </label>
+                <input
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                    id="number_plate" name="number_plate" type="text" placeholder="car plate">
+            </div>
+
+            <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="points">
+                        Points
+                    </label>
+                    <input
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        id="points" name="points" type="number">
+                </div>
+                <div class="w-full md:w-1/2 px-3">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="date">
+                        Date
+                    </label>
+                    <input
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        id="date" name="date" type="datetime-local" placeholder="Doe">
+                </div>
+            </div>
+
+            <button id="reward_btn" class="bg-amber-800 hover:bg-gray-300 text-white font-bold py-2 px-4 rounded">
+                Reward Points
+            </button>
+        </form>
+    </div>
+
+    <script>
+        let $ = require('jquery')
+        let ipc = require('electron').ipcRenderer
+
+
+        $('#reward_btn').on('click', () => {
+            var c_firstname = $('#first_name').val()
+            var c_lastname = $('#last_name').val()
+            var c_plate = $('#number_plate').val()
+            var c_points = $('#points').val()
+            var date = $('#date').val()
+            ipc.send('reward_points', [c_firstname, c_lastname, c_plate, c_points, date])
+        })
+
+    </script>
 </body>
 
 </html>

@@ -9,7 +9,6 @@
 
 <body>
     <div class="md:flex md:justify-center mb-6">
-
         <form class="py-5">
             <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -131,12 +130,15 @@
 
 
         $('#receipt').on('click', () => {
+            var c_firstname = $('#first_name').val()
+            var c_lastname = $('#last_name').val()
             var number_plate = $('#number_plate').val()
             var served_by = $('#served_by').val()
+            var car_type = $('#car_type').val()
             var service_type = $('#service_type').val()
             var amount = $('#amount').val()
-            var car_type = $('#car_type').val()
-            ipc.send('receipt', [number_plate, service_type, amount, served_by])
+            var date = $('#date').val()
+            ipc.send('receipt', [c_firstname, c_lastname, number_plate, served_by, car_type, service_type, amount, date])
         })
 
     </script>

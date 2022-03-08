@@ -56,7 +56,7 @@
             var pay_type = $('input[name="pay_type"]:checked').val()
             var sal_com = $('#new_sal_com').val()
 
-            ipc.send('updatesalary', [phone, pay_type, sal_com])
+            ipc.send('update_salary', [phone, pay_type, sal_com])
         })
     </script>
 </body>

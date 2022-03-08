@@ -53,7 +53,8 @@ module.exports = {
         window.loadFile('./reports.html')
     },
     createReward: (parent) => {
-        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        var window = new BrowserWindow({ parent: parent, width: 600, height: 400, modal: true, webPreferences: webPreferences })
+        window.removeMenu(true)
         window.loadFile('./reward.html')
     },
     createClients: (parent) => {
