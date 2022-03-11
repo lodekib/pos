@@ -87,6 +87,19 @@
               <span class="ml-3">Services & Charges</span>
             </a>
           </li>
+          <li class="my-px">
+            <a href="#" id="add_service"
+              class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700">
+              <span class="flex items-center justify-center text-lg text-gray-400">
+                <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+                  stroke="currentColor" class="h-6 w-6">
+                  <path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                </svg>
+              </span>
+              <span class="ml-3">Add New Service</span>
+            </a>
+          </li>
+
 
           <li class="my-px">
             <span class="flex font-medium text-sm text-gray-300 px-4 my-4 uppercase">Employees</span>
@@ -228,7 +241,7 @@
         <div class="flex flex-col flex-grow  bg-transparent rounded mt-4">
           <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
             <div class="min-w-0 rounded-lg shadow-xs overflow-hidden bg-white dark:bg-gray-800">
-              <div class="p-4 flex items-center">
+              <div id="total_employees" class="p-4 flex items-center">
                 <div
                   class="p-3 rounded-full text-orange-500 dark:text-orange-100 bg-orange-100 dark:bg-orange-500 mr-4">
                   <svg fill="currentColor" viewBox="0 0 20 20" class="w-5 h-5">
@@ -238,10 +251,11 @@
                   </svg>
                 </div>
                 <div>
-                  <p id="clients" class=" cursor-pointer mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Total clients
+                  <p class=" cursor-pointer mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                    Total Employees
                   </p>
-
+                  <p id="emp" class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                  </p>
                 </div>
               </div>
             </div>
@@ -258,8 +272,7 @@
                   <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
                     Daily Revenue
                   </p>
-                  <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                    Ksh. 14,500
+                  <p id="rev" class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                   </p>
                 </div>
               </div>
@@ -284,7 +297,7 @@
               </div>
             </div>
             <div class="min-w-0 rounded-lg shadow-xs overflow-hidden bg-white dark:bg-gray-800">
-              <div class="p-4 flex items-center">
+              <div id="reward" class="p-4 flex items-center">
                 <div class="p-3 rounded-full text-teal-500 dark:text-teal-100 bg-teal-100 dark:bg-teal-500 mr-4">
                   <svg fill="currentColor" viewBox="0 0 20 20" class="w-5 h-5">
                     <path fill-rule="evenodd"
@@ -293,7 +306,7 @@
                   </svg>
                 </div>
                 <div>
-                  <p id="reward" class=" cursor-pointer mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                  <p class=" cursor-pointer mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
                     Reward Client
                   </p>
                 </div>
@@ -313,10 +326,16 @@
                           #
                         </th>
                         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                          Client's Name
+                        </th>
+                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                           Client's car plate
                         </th>
                         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                           Car Type
+                        </th>
+                        <th scope="col" class="tex-sm font-medium text-gray-900 px-6 py-4 text-left">
+                          Service Offered
                         </th>
                         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                           Served by
@@ -324,54 +343,12 @@
                         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                           Payment
                         </th>
+                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                          Date
+                        </th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr class="bg-gray-100 border-b">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          KBX 204T
-                        </td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          Subaru
-                        </td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          John Doe
-                        </td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          500
-                        </td>
-                      </tr>
-                      <tr class="bg-white border-b">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">2</td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          KDG 134X
-                        </td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          Prado
-                        </td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          Felix
-                        </td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          1200
-                        </td>
-                      </tr>
-                      <tr class="bg-gray-100 border-b">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">3</td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          KDG 134X
-                        </td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          Peuguot
-                        </td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          Alex
-                        </td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          670
-                        </td>
-                      </tr>
+                    <tbody id="tbody">
                     </tbody>
                   </table>
                 </div>
@@ -382,19 +359,78 @@
 
         </div>
       </div>
-
-
     </main>
   </div>
 
   <script>
     let $ = require('jquery')
     let ipc = require('electron').ipcRenderer
+    let index = 0
+    let sum = 0
+    var all_employees
+    ipc.send('revenue')
+    ipc.on('all_revenue', (event, args) => {
+      let rev = document.querySelector('#rev')
+      for (let i = 0; i < args.length; i++) {
+        sum += args[i].amount
+      }
+      rev.innerHTML = 'Ksh ' + sum
+    })
+    ipc.send('all_employees')
+    ipc.on('employees', (event, args) => {
+      all_employees = args
+      document.querySelector("#emp").innerHTML = args.length
+    })
+
+    ipc.send('table_data')
+    ipc.on('all_transactions', (event, args) => {
+      let tbody = $('#tbody')
+      for (let i = 0; i < args.length; i++) {
+        let tr = document.createElement('tr')
+        let td_id = document.createElement('td')
+        let td_name = document.createElement('td')
+        let td_plate = document.createElement('td')
+        let td_type = document.createElement('td')
+        let td_service = document.createElement("td")
+        let td_served = document.createElement("td")
+        let td_payment = document.createElement("td")
+        let td_date = document.createElement("td")
+
+
+        tr.classList.add("bg-gray-100", "border-b")
+        td_id.classList.add("px-6", "py-4", "whitespace-nowrap", "text-sm", "font-medium", "text-gray-900")
+        td_name.classList.add("text-sm", "text-gray-900", "font-light", "px-6", "py-4", "whitespace-nowrap")
+        td_plate.classList.add("text-sm", "text-gray-900", "font-light", "px-6", "py-4", "whitespace-nowrap")
+        td_type.classList.add("text-sm", "text-gray-900", "font-light", "px-6", "py-4", "whitespace-nowrap")
+        td_service.classList.add("text-sm", "text-gray-900", "font-light", "px-6", "py-4", "whitespace-nowrap")
+        td_served.classList.add("text-sm", "text-gray-900", "font-light", "px-6", "py-4", "whitespace-nowrap")
+        td_payment.classList.add("text-sm", "text-gray-900", "font-light", "px-6", "py-4", "whitespace-nowrap")
+        td_date.classList.add("text-sm", "text-gray-900", "font-light", "px-6", "py-4", "whitespace-nowrap")
+
+        td_id.innerHTML = index++
+        td_name.innerHTML = args[i].client_firstname + ' ' + args[i].client_lastname
+        td_plate.innerHTML = args[i].car_plate
+        td_type.innerHTML = args[i].client_car_type
+        td_service.innerHTML = args[i].service_offered
+        td_served.innerHTML = args[i].service_employee
+        td_payment.innerHTML = args[i].amount
+        td_date.innerHTML = args[i].date
+
+        tr.append(td_id, td_name, td_plate, td_type, td_service, td_served, td_payment, td_date)
+        tbody.append(tr)
+      }
+
+
+    })
+    $('#add_service').on('click', () => {
+      ipc.send('add_service')
+    })
+
     $('#transaction').on('click', () => {
-      ipc.send('transaction', 'tests')
+      ipc.send('transaction')
     })
     $('#rollback').on('click', () => {
-      ipc.send('rollback', 'tests')
+      ipc.send('rollback')
     })
     $('#expenditure').on('click', () => {
       ipc.send('expenditure')
@@ -432,6 +468,10 @@
     $('#logout').on('click', () => {
       ipc.send('logout')
     })
+
+
+
+
 
   </script>
   </body>

@@ -2,7 +2,7 @@ const { app, BrowserWindow,ipcMain,screen} = require('electron')
 const path = require('path')
 const { createTransaction, createServices, createRollback, createExpenditure, createConcerns,
     createSalaryUpdate, createEmployees, createEmployee, createProfile, createSettings,
-    createReports,createReward, createClients
+    createReports,createReward, createClients,createNewService
 } = require('./manage/manager')
 const { print } = require('./receipt')
 const { connectDB,disconnectDB } = require('./database/db')
@@ -62,12 +62,40 @@ ipcMain.on('manager', (event, args) => {
     win.show()
     child.hide()
   
+
+})
+ipcMain.on('all_employees', (event, args) => {
+    let sql = "SELECT * FROM employees"
+    db.all(sql, [], (err, row) => {
+        if (err) {
+            return console.log(err.message)
+        }
+        event.sender.send('employees',row)
+    })
+})
+ipcMain.on('revenue', (event, args) => {
+    let sql = "SELECT amount FROM transactions"
+    db.all(sql, [], (err, row) => {
+        if (err) {
+            return console.log(err.message)
+        }
+        event.sender.send('all_revenue',row)
+    })
+})
+ipcMain.on('table_data', (event, args) =>{
+    let sql = "SELECT * FROM transactions"
+    db.each(sql, [], (err, row) => {
+        if (err) {
+            return console.log(err.message)
+        }
+        event.sender.send('all_transactions',[row])
+
+    })
 })
 
 ipcMain.on('add_employee', (event, args) => {
     // db.run("CREATE TABLE IF NOT EXISTS employees (first_name NOT NULL,last_name NOT NULL, phone_number NOT NULL,employee_type NOT NULL,payment NOT NULL,salary NOT NULL ) ")
      db.run(`INSERT INTO employees (first_name,last_name,phone_number,employee_type,payment,salary) VALUES('${args[0]}','${args[1]}','${args[2]}','${args[3]}','${args[4]}','${args[5]}')`)
-    console.log(args)
 })
 
 ipcMain.on('reward_points', (event, args) => {
@@ -78,7 +106,6 @@ ipcMain.on('reward_points', (event, args) => {
     } else {
         console.log('Unable to reward client')
     }
-    console.log(args)
 })
 
 ipcMain.on('update_salary', (event, args) => {
@@ -94,8 +121,15 @@ ipcMain.on('update_salary', (event, args) => {
             console.log('No such employee')
         }
     })
-    console.log(args)
 })
+ipcMain.on('newservice', (event, args) => {
+//  db.run("CREATE TABLE IF NOT EXISTS services (service_name NOT NULL,saloon_car,four_wheel_SUVs,bus,trailer,mini_bus,motorcycle)")
+   let sql =db.run(`INSERT INTO services (service_name,saloon_car,four_wheel_SUVs,bus,trailer,mini_bus,motorcycle) VALUES('${args}','','','','','','')`)
+    if (sql) {
+    console.log('service added successfully')
+}
+})
+ipcMain.on('add_service',()=> createNewService(win))
 ipcMain.on('transaction', () => createTransaction(win))
 ipcMain.on('rollback', () => createRollback(win))
 ipcMain.on('expenditure', () => createExpenditure(win))

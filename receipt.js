@@ -5,7 +5,7 @@ var date = Date()
 
     function print(car_plate,service_type,amount,served_by){
       const options = {
-        preview: false,             // Preview in window or print
+        preview: true,             // Preview in window or print
         width: '200px',               //  width of content body
         margin: '10 10 10 10',
         copies: 1,

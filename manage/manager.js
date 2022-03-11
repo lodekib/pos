@@ -61,6 +61,11 @@ module.exports = {
         var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
         window.loadFile('./clients.html')
     },
+    createNewService: (parent) => {
+        var window = new BrowserWindow({ parent: parent, width: 400, height: 250, modal: true ,webPreferences:webPreferences})
+        window.removeMenu(true)
+        window.loadFile('./newservice.html')
+    },
 
 }
 
