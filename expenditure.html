@@ -3,13 +3,61 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="dist/output.css" rel="stylesheet" type="text/css">
     <title>Expenditure</title>
 </head>
 
 <body>
-    <h3>Expenditure Window</h3>
+    <div class="md:flex md:justify-center mb-6">
+        <form class="py-5 px-5">
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="expense">
+                    Expense
+                </label>
+                <input
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                    id="expense" name="expense" type="text">
+            </div>
+
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="amount">
+                    Amount
+                </label>
+                <input
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                    id="amount" name="amount" type="number">
+            </div>
+
+            <div class="w-full md:w-1/2 px-3 mb-3">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="date">
+                    Date
+                </label>
+                <input
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    id="date" name="date" type="datetime-local" placeholder="Doe">
+            </div>
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <button id="expenditure_btn"
+                    class="bg-amber-800 hover:bg-gray-300  text-white font-bold py-2 px-4 rounded">
+                    Add Expenditure
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        let $ = require('jquery')
+        let ipc = require('electron').ipcRenderer
+        $('#expenditure_btn').on('click', () => {
+            let expense = $('#expense').val()
+            let amount = $('#amount').val()
+            let date = $('#date').val()
+            ipc.send('addexpense', [expense, amount, date])
+        })
+
+
+    </script>
 </body>
 
 </html>

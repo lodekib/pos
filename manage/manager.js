@@ -12,15 +12,16 @@ module.exports = {
         window.loadFile('./new_transaction.html')
     },
     createRollback: (parent)=>{
-        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        var window = new BrowserWindow({ parent: parent, width: 600, height: 450, modal: true ,webPreferences:webPreferences})
         window.loadFile('./rollback.html')
     },
     createExpenditure: (parent)=>{
-        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        var window = new BrowserWindow({ parent: parent, width: 600, height: 450, modal: true,webPreferences:webPreferences})
         window.loadFile('./expenditure.html')
     },
     createServices: (parent)=>{
-        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        var window = new BrowserWindow({ parent: parent, width: 600, height: 450, modal: true, webPreferences: webPreferences })
+        window.removeMenu(true)
         window.loadFile('./services.html')
     },
     createConcerns: (parent)=>{

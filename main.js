@@ -6,7 +6,7 @@ const { createTransaction, createServices, createRollback, createExpenditure, cr
 } = require('./manage/manager')
 const { print } = require('./receipt')
 const { connectDB,disconnectDB } = require('./database/db')
-const { count } = require('console')
+const { disconnect } = require('process')
 
 let win
 let win2
@@ -70,7 +70,8 @@ ipcMain.on('all_employees', (event, args) => {
         if (err) {
             return console.log(err.message)
         }
-        event.sender.send('employees',row)
+        event.sender.send('employees', row)
+        
     })
 })
 ipcMain.on('revenue', (event, args) => {
@@ -79,7 +80,7 @@ ipcMain.on('revenue', (event, args) => {
         if (err) {
             return console.log(err.message)
         }
-        event.sender.send('all_revenue',row)
+        event.sender.send('all_revenue', row)
     })
 })
 ipcMain.on('table_data', (event, args) =>{
@@ -88,14 +89,15 @@ ipcMain.on('table_data', (event, args) =>{
         if (err) {
             return console.log(err.message)
         }
-        event.sender.send('all_transactions',[row])
+        event.sender.send('all_transactions', [row])
 
     })
 })
 
 ipcMain.on('add_employee', (event, args) => {
     // db.run("CREATE TABLE IF NOT EXISTS employees (first_name NOT NULL,last_name NOT NULL, phone_number NOT NULL,employee_type NOT NULL,payment NOT NULL,salary NOT NULL ) ")
-     db.run(`INSERT INTO employees (first_name,last_name,phone_number,employee_type,payment,salary) VALUES('${args[0]}','${args[1]}','${args[2]}','${args[3]}','${args[4]}','${args[5]}')`)
+    db.run(`INSERT INTO employees (first_name,last_name,phone_number,employee_type,payment,salary) VALUES('${args[0]}','${args[1]}','${args[2]}','${args[3]}','${args[4]}','${args[5]}')`)
+    
 })
 
 ipcMain.on('reward_points', (event, args) => {
@@ -116,6 +118,7 @@ ipcMain.on('update_salary', (event, args) => {
         } else if (row != null) {
            db.run(`UPDATE  employees SET payment = '${args[1]}',salary = '${args[2]}' WHERE phone_number = '${args[0]}'`)
             console.log('Update successful')
+            
         } 
         else {
             console.log('No such employee')
@@ -123,11 +126,47 @@ ipcMain.on('update_salary', (event, args) => {
     })
 })
 ipcMain.on('newservice', (event, args) => {
-//  db.run("CREATE TABLE IF NOT EXISTS services (service_name NOT NULL,saloon_car,four_wheel_SUVs,bus,trailer,mini_bus,motorcycle)")
+//  db.run("CREATE TABLE IF NOT EXISTS services (service_name NOT NULL,saloon_car,four_wheel_SUVs,bus,trailer,mini_bus,motorcycle,pickup,canter,double_cabin)")
    let sql =db.run(`INSERT INTO services (service_name,saloon_car,four_wheel_SUVs,bus,trailer,mini_bus,motorcycle) VALUES('${args}','','','','','','')`)
     if (sql) {
-    console.log('service added successfully')
+        console.log('service added successfully')
+        
 }
+})
+ipcMain.on('services_and_cars', (event, args) => {
+    let sql = "SELECT service_name FROM services"
+    db.all(sql, [], (err, row) => {
+        if (err) {
+            return console.log(err.message)
+        }
+        event.sender.send('servicesandcars', row)
+        
+    })
+})
+ipcMain.on('charges_data', (event, args) => {
+    let sql = db.run(`UPDATE services SET ${args[1]} = '${args[2]}' WHERE service_name = '${args[0]}'`)
+    if (sql) {
+        console.log('Update successfull')
+        
+    }
+})
+ipcMain.on('rollback_date', (event, args) => {
+    let sql = db.run(`DELETE FROM transactions WHERE date = '${args[0]}'`)
+    if (sql) {
+        console.log('Rollback successful')
+    } else {
+        console.log('Unable to rollback the transaction')
+        
+    }
+})
+ipcMain.on('addexpense', (event, args) => {
+    // let sql =db.run("CREATE TABLE IF NOT EXISTS expenses (expense NOT NULL,amount NOT NULL,date DATE NOT NULL)")
+    let sql = db.run(`INSERT INTO expenses (expense,amount,date) VALUES ('${args[0]}','${args[1]}','${args[2]}')`)
+    if (sql) {
+        console.log('expense added')
+    } else {
+        console.log('Unable to add expense')
+    }
 })
 ipcMain.on('add_service',()=> createNewService(win))
 ipcMain.on('transaction', () => createTransaction(win))
@@ -149,8 +188,10 @@ ipcMain.on('receipt', (event, args) => {
    let query= db.run(`INSERT INTO transactions (client_firstname,client_lastname,car_plate,service_employee,client_car_type,service_offered,amount,date) VALUES('${args[0]}','${args[1]}','${args[2]}','${args[3]}','${args[4]}','${args[5]}','${args[6]}','${args[7]}')`)
     if (query) {
         console.log('Transaction added sucessfullty')
-        print(args[2],args[4],args[6],args[3])
+        print(args[2], args[4], args[6], args[3])
+        
     } else {
+        transaction
         console.log('Unable to add transaction')
     }
     console.log(args)
