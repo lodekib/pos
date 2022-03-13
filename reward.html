@@ -17,7 +17,7 @@
                     </label>
                     <input
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                        id="first_name" name="first_name" type="text" placeholder="Jane">
+                        id="first_name" name="first_name" type="text" required>
                 </div>
                 <div class="w-full md:w-1/2 px-3">
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="last_name">
@@ -25,7 +25,7 @@
                     </label>
                     <input
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="last_name" name="last_name" type="text" placeholder="Doe">
+                        id="last_name" name="last_name" type="text" required>
                 </div>
             </div>
 
@@ -35,7 +35,7 @@
                 </label>
                 <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                    id="number_plate" name="number_plate" type="text" placeholder="car plate">
+                    id="number_plate" name="number_plate" type="text" required>
             </div>
 
             <div class="flex flex-wrap -mx-3 mb-6">
@@ -45,7 +45,7 @@
                     </label>
                     <input
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                        id="points" name="points" type="number">
+                        id="points" name="points" type="number" required>
                 </div>
                 <div class="w-full md:w-1/2 px-3">
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="date">
@@ -53,7 +53,7 @@
                     </label>
                     <input
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="date" name="date" type="datetime-local" placeholder="Doe">
+                        id="date" name="date" type="datetime-local" required>
                 </div>
             </div>
 
@@ -66,15 +66,24 @@
     <script>
         let $ = require('jquery')
         let ipc = require('electron').ipcRenderer
-
+        ipc.on('success_addreward', (event, args) => {
+            window.alert(args)
+        })
+        ipc.on('error_addreward', (event, args) => {
+            window.alert(args)
+        })
 
         $('#reward_btn').on('click', () => {
-            var c_firstname = $('#first_name').val()
-            var c_lastname = $('#last_name').val()
-            var c_plate = $('#number_plate').val()
-            var c_points = $('#points').val()
-            var date = $('#date').val()
-            ipc.send('reward_points', [c_firstname, c_lastname, c_plate, c_points, date])
+            let c_firstname = $('#first_name').val()
+            let c_lastname = $('#last_name').val()
+            let c_plate = $('#number_plate').val()
+            let c_points = $('#points').val()
+            let date = $('#date').val()
+            if (!c_firstname == '' && !c_lastname == '' && !c_plate == '' && !c_points == '' && !date == '') {
+                ipc.send('reward_points', [c_firstname, c_lastname, c_plate, c_points, date])
+            } else {
+                window.alert('Please provide the missing fields')
+            }
         })
 
     </script>

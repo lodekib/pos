@@ -18,7 +18,7 @@
                     </label>
                     <input
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                        id="e_firstname" name="e_firstname" type="text">
+                        id="e_firstname" name="e_firstname" type="text" required>
                 </div>
                 <div class="w-full md:w-1/2 px-3">
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="e_lastname">
@@ -26,7 +26,7 @@
                     </label>
                     <input
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="e_lastname" name="e_lastname" type="text">
+                        id="e_lastname" name="e_lastname" type="text" required>
                 </div>
             </div>
             <div class="flex flex-wrap -mx-3 mb-6">
@@ -36,7 +36,7 @@
                     </label>
                     <input
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="e_phone" name="e_phone" type="number">
+                        id="e_phone" name="e_phone" type="number" required>
                 </div>
             </div>
 
@@ -101,6 +101,12 @@
         let $ = require('jquery')
         let ipc = require('electron').ipcRenderer
 
+        ipc.on('success_addemployee', (event, args) => {
+            window.alert(args)
+        })
+        ipc.on('error_addemployee', (event, args) => {
+            window.alert(args)
+        })
 
         $('#add_employee').on('click', () => {
             var e_firstname = $('#e_firstname').val()
@@ -109,8 +115,11 @@
             var e_type = $('#e_type').val()
             var e_payment = $('#e_payment').val()
             var e_salary = $('#e_salary').val()
-
-            ipc.send('add_employee', [e_firstname, e_lastname, e_phone, e_type, e_payment, e_salary])
+            if (!e_firstname == '' && !e_lastname == '' && !e_phone == '' && !e_type == '' && !e_payment == '' && !e_salary == '') {
+                ipc.send('add_employee', [e_firstname, e_lastname, e_phone, e_type, e_payment, e_salary])
+            } else {
+                window.alert('Please provide the missing fields')
+            }
         })
 
     </script>

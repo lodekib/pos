@@ -6,7 +6,6 @@ const { createTransaction, createServices, createRollback, createExpenditure, cr
 } = require('./manage/manager')
 const { print } = require('./receipt')
 const { connectDB,disconnectDB } = require('./database/db')
-const { disconnect } = require('process')
 
 let win
 let win2
@@ -21,7 +20,8 @@ let db = connectDB()
      
         } 
     })
-    printers = win.webContents.getPrintersAsync()
+     printers = win.webContents.getPrintersAsync()
+     console.log('Printers :'+printers)
     // win.removeMenu(true)
     win.loadFile(path.join(__dirname, './manager.html'),)
     win2 = new BrowserWindow({width: width,  height: height,show: false,webPreferences: {
@@ -37,7 +37,7 @@ let db = connectDB()
             contextIsolation:false
         }
     })
-    //  child.removeMenu(true)
+     child.removeMenu(true)
     child.loadFile(path.join(__dirname, './login.html'))
     
 }
@@ -55,13 +55,10 @@ ipcMain.on('manager', (event, args) => {
         }else if (row.password == args[2]) {
             win.show()
             child.hide()
-        } else {
-          console.log('Invalid credentials')        }
-    })
-       
-    win.show()
-    child.hide()
-  
+        } else{
+          event.sender.send('login_error','Invalid Credentials')
+        }
+    })     
 
 })
 ipcMain.on('all_employees', (event, args) => {
@@ -69,8 +66,11 @@ ipcMain.on('all_employees', (event, args) => {
     db.all(sql, [], (err, row) => {
         if (err) {
             return console.log(err.message)
+        } else if(row.length <1){
+            event.sender.send('no_employee','No employees Available')
+        } else {
+            event.sender.send('employees', row.reverse())
         }
-        event.sender.send('employees', row)
         
     })
 })
@@ -79,35 +79,59 @@ ipcMain.on('revenue', (event, args) => {
     db.all(sql, [], (err, row) => {
         if (err) {
             return console.log(err.message)
+        } else if (row.length < 1) {
+            event.sender.send('no_revenue','No revenue Collected')
+        } else {
+            event.sender.send('all_revenue', row.reverse())
+
         }
-        event.sender.send('all_revenue', row)
     })
 })
 ipcMain.on('table_data', (event, args) =>{
     let sql = "SELECT * FROM transactions"
-    db.each(sql, [], (err, row) => {
+    db.all(sql, [], (err, row) => {
         if (err) {
             return console.log(err.message)
         }
-        event.sender.send('all_transactions', [row])
-
+        event.sender.send('all_transactions', row.reverse())
     })
 })
 
 ipcMain.on('add_employee', (event, args) => {
     // db.run("CREATE TABLE IF NOT EXISTS employees (first_name NOT NULL,last_name NOT NULL, phone_number NOT NULL,employee_type NOT NULL,payment NOT NULL,salary NOT NULL ) ")
-    db.run(`INSERT INTO employees (first_name,last_name,phone_number,employee_type,payment,salary) VALUES('${args[0]}','${args[1]}','${args[2]}','${args[3]}','${args[4]}','${args[5]}')`)
-    
+    if (db.run(`INSERT INTO employees (first_name,last_name,phone_number,employee_type,payment,salary) VALUES('${args[0]}','${args[1]}','${args[2]}','${args[3]}','${args[4]}','${args[5]}')`)) {
+        event.sender.send('success_addemployee','Employee added successfully')
+    } else {
+        event.sender.send('error_addemployee', 'Unable to add Employee.Please try again')
+    }
+  
 })
 
 ipcMain.on('reward_points', (event, args) => {
     // db.run("CREATE TABLE IF NOT EXISTS clients (first_name NOT NULL,last_name NOT NULL,plate_number NOT NULL, points INTEGER DEFAULT 0 NOT NULL, date DATE)")
-    var sql = db.run(`INSERT INTO clients (first_name,last_name,plate_number,points,date) VALUES('${args[0]}','${args[1]}','${args[2]}','${args[3]}','${args[4]}')`)
-    if (sql) {
-        console.log('Rewards Updated')
-    } else {
-        console.log('Unable to reward client')
-    }
+    let sql = `SELECT first_name,last_name,points FROM clients WHERE plate_number =?`
+    db.get(sql, [args[2]], (err, row) => {
+        console.log(row)
+        // if (err) {
+        //     return console.log(err.message)
+        // } else if (row.length > 0) {
+        //     let new_points = parseInt(row.points)+parseInt(args[3])
+        //     if (db.run(`UPDATE clients SET points = '${new_points}'`)) {
+        //        event.sender.send('success_updatepoints','Client Points Updated Successfully')
+        //     } else {
+        //         event.sender.send('error_updatepoints','Unable to Update Client Points')
+        //    }
+        // } else {
+        //     if (db.run(`INSERT INTO clients (first_name,last_name,plate_number,points,date) VALUES('${args[0]}','${args[1]}','${args[2]}','${args[3]}','${args[4]}')`)) {
+        //         event.sender.send('success_addreward', 'Client Awarded points successfully')
+        //     } else {
+        //         event.sender.send('error_addreward', 'Unable to reward client')
+        //     }
+        // }
+    })
+
+
+  
 })
 
 ipcMain.on('update_salary', (event, args) => {
@@ -139,7 +163,7 @@ ipcMain.on('services_and_cars', (event, args) => {
         if (err) {
             return console.log(err.message)
         }
-        event.sender.send('servicesandcars', row)
+        event.sender.send('servicesandcars', row.reverse())
         
     })
 })
@@ -168,6 +192,30 @@ ipcMain.on('addexpense', (event, args) => {
         console.log('Unable to add expense')
     }
 })
+ipcMain.on('new_complain', (event, args) => {
+    //   db.run("CREATE TABLE IF NOT EXISTS complains (employee_name TEXT NOT NULL,complain TEXT NOT NULL,date DATE NOT NULL, status NOT NULL DEFAULT Active)")
+    if (db.run(`INSERT INTO complains (employee_name,complain,date,status) VALUES ('${args[0]}','${args[1]}','${args[2]}','Active')`)) {
+        console.log('complain added successfullly')
+    }
+})
+ipcMain.on('all_complains', (event, args) => {
+    db.all("SELECT * FROM complains", [], (err, row) => {
+        if (err) {
+            return console.log(err.message)
+        }
+       event.sender.send('allcomplains',row.reverse()) 
+    })
+})
+ipcMain.on('all_employees', (event,args) => {
+    db.all("SELECT * FROM employees", [], (err, row) => {
+        if (err) {
+            console.log(err.message)
+        } else {
+            console.log(row)
+            event.sender.send('allemployees',row.reverse())
+        }
+    })
+})
 ipcMain.on('add_service',()=> createNewService(win))
 ipcMain.on('transaction', () => createTransaction(win))
 ipcMain.on('rollback', () => createRollback(win))
@@ -182,16 +230,17 @@ ipcMain.on('settings', () => createSettings(win))
 ipcMain.on('reports', () => createReports(win))
 ipcMain.on('reward', () => createReward(win))
 ipcMain.on('clients', () => createClients(win))
-ipcMain.on('logout', () => child.show())
+ipcMain.on('logout', () => {
+    win.close()
+    child.show()
+})
 
 ipcMain.on('receipt', (event, args) => {
    let query= db.run(`INSERT INTO transactions (client_firstname,client_lastname,car_plate,service_employee,client_car_type,service_offered,amount,date) VALUES('${args[0]}','${args[1]}','${args[2]}','${args[3]}','${args[4]}','${args[5]}','${args[6]}','${args[7]}')`)
     if (query) {
         console.log('Transaction added sucessfullty')
         print(args[2], args[4], args[6], args[3])
-        
     } else {
-        transaction
         console.log('Unable to add transaction')
     }
     console.log(args)

@@ -25,7 +25,7 @@ module.exports = {
         window.loadFile('./services.html')
     },
     createConcerns: (parent)=>{
-        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        var window = new BrowserWindow({ parent: parent, width: 800, height: 450, modal: true,webPreferences:webPreferences })
         window.loadFile('./concerns.html')
     },
     createSalaryUpdate: (parent) => {
@@ -34,7 +34,7 @@ module.exports = {
         window.loadFile('./salaryupdate.html')
     },
     createEmployees: (parent) => {
-        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true,webPreferences:webPreferences})
         window.loadFile('./employees.html')
     },
     createEmployee: (parent) => {
@@ -55,7 +55,7 @@ module.exports = {
     },
     createReward: (parent) => {
         var window = new BrowserWindow({ parent: parent, width: 600, height: 400, modal: true, webPreferences: webPreferences })
-        window.removeMenu(true)
+        // window.removeMenu(true)
         window.loadFile('./reward.html')
     },
     createClients: (parent) => {

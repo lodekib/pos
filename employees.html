@@ -4,12 +4,135 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="dist/output.css" rel="stylesheet" type="text/css">
     <title>Employees</title>
 </head>
 
 <body>
-    <h3>Employees Screen</h3>
+    <div class="flex w-full">
+        <div class="container mx-auto px-3 sm:px-8">
+            <div class="py-8">
+                <div class="-mx-4 sm:-mx-8 px-4 sm:px-3 py-4 overflow-x-auto">
+                    <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                        <table class="min-w-full leading-normal">
+                            <thead>
+                                <tr>
+                                    <th
+                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        Employee First Name
+                                    </th>
+                                    <th
+                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        Employee Last Name
+                                    </th>
+                                    <th
+                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        Phone Number
+                                    </th>
+                                    <th
+                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        Employee Type
+                                    </th>
+                                    <th
+                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        Payment
+                                    </th>
+                                    <th
+                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        Salary
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody">
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let $ = require('jquery')
+        let ipc = require('electron').ipcRenderer
+
+        ipc.on('no_employee', (event, args) => {
+            window.alert(args)
+        })
+        ipc.on('no_employee', (event, args) => {
+            window.alert(args)
+        })
+
+        ipc.send('all_employees')
+        ipc.on('allemployees', (event, args) => {
+            console.log(args)
+            let tbody = $('#tbody')
+            for (let i = 0; i < args.length; i++) {
+                let tr = document.createElement('tr')
+                let td = document.createElement('td')
+                let div = document.createElement('div')
+                let div2 = document.createElement('div')
+                let p = document.createElement('p')
+                let td2 = document.createElement('td')
+                let p2 = document.createElement('p')
+                let td3 = document.createElement('td')
+                let p3 = document.createElement('p')
+                let td4 = document.createElement('td')
+                let span = document.createElement('span')
+                let td5 = document.createElement('td')
+                let p5 = document.createElement('p')
+                let td6 = document.createElement('td')
+                let p6 = document.createElement('p')
+
+                p.classList.add('text-gray-900', 'whitespace-no-wrap')
+                div.classList.add('flex', 'items-center')
+                div2.classList.add('ml-3')
+                td.classList.add('px-5', 'py-5', 'border-b', 'border-gray-200', 'bg-white', 'text-sm')
+                p.innerHTML = args[i].first_name
+                div2.appendChild(p)
+                div.appendChild(div2)
+                td.appendChild(div)
+
+
+                td2.classList.add('px-5', 'py-5', 'border-b', 'border-gray-200', 'bg-white', 'text-sm')
+                p2.classList.add('text-gray-900', 'whitespace-no-wrap')
+                p2.innerHTML = args[i].last_name
+                td2.appendChild(p2)
+
+                td3.classList.add('px-5', 'py-5', 'border-b', 'border-gray-300', 'bg-white', 'text-sm')
+                p3.classList.add('text-gray-900', 'whitespace-no-wrap')
+                p3.innerHTML = args[i].phone_number
+                td3.appendChild(p3)
+
+                td4.classList.add('px-5', 'py-5', 'border-b', 'border-gray-300', 'bg-white', 'text-sm')
+                span.classList.add('relative', 'text-red-600')
+                span.innerHTML = args[i].employee_type
+                td4.appendChild(span)
+
+                td5.classList.add('px-5', 'py-5', 'border-b', 'border-gray-500', 'bg-white', 'text-sm')
+                p5.classList.add('text-gray-900', 'whitespace-no-wrap')
+                p5.innerHTML = args[i].payment
+                td5.appendChild(p5)
+
+                td6.classList.add('px-5', 'py-5', 'border-b', 'border-gray-500', 'bg-white', 'text-sm')
+                p6.classList.add('text-gray-900', 'whitespace-no-wrap')
+                p6.innerHTML = args[i].salary
+                td6.appendChild(p6)
+
+                tr.append(td, td2, td3, td4, td5, td6)
+                tbody.append(tr)
+            }
+        })
+        $('#complain_btn').on('click', () => {
+            let complainant = $('#complainant').val()
+            let complain = $('#complain').val()
+            let date = $('#date').val()
+
+            ipc.send('new_complain', [complainant, complain, date])
+        })
+
+    </script>
 </body>
 
 </html>

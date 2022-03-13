@@ -40,7 +40,6 @@
                                 <option value="admin">Administrator</option>
                             </select>
 
-
                         </div>
                     </div>
                     <div class="mb-2">
@@ -49,7 +48,7 @@
                         </label>
                         <input type="password" id="password"
                             class="w-full p-3 text-md border rounded shadow focus:outline-none focus:shadow-outline"
-                            placeholder="***********" />
+                            placeholder="********" />
                     </div>
                     <div class="mb-2">
                         <button class="w-full p-3 font-bold text-white bg-red-500 rounded-full focus:outline-none"
@@ -72,6 +71,9 @@
         let fs = require('fs')
         const ipc = require('electron').ipcRenderer
 
+        ipc.on('login_error', (event, args) => {
+            window.alert(args)
+        })
 
 
         $('#btn-login').on('click', () => {
@@ -79,12 +81,18 @@
             var password = $('#password').val()
             var user = $('#user').val()
 
-            if (user == 'manager') {
-                ipc.send('manager', [email, user, password])
+            if (!email == '' && !password == '') {
+                if (user == 'manager') {
 
-            } else if (user == 'admin') {
-                ipc.send('admin', email)
+                    ipc.send('manager', [email, user, password])
+
+                } else if (user == 'admin') {
+                    ipc.send('admin', email)
+                }
+            } else {
+                window.alert('Please provide missing fields')
             }
+
         })
     </script>
     </body>
