@@ -57,16 +57,13 @@
         let $ = require('jquery')
         let ipc = require('electron').ipcRenderer
 
-        ipc.on('no_employee', (event, args) => {
-            window.alert(args)
-        })
-        ipc.on('no_employee', (event, args) => {
+
+        ipc.on('no_employees', (event, args) => {
             window.alert(args)
         })
 
         ipc.send('all_employees')
         ipc.on('allemployees', (event, args) => {
-            console.log(args)
             let tbody = $('#tbody')
             for (let i = 0; i < args.length; i++) {
                 let tr = document.createElement('tr')
@@ -123,13 +120,6 @@
                 tr.append(td, td2, td3, td4, td5, td6)
                 tbody.append(tr)
             }
-        })
-        $('#complain_btn').on('click', () => {
-            let complainant = $('#complainant').val()
-            let complain = $('#complain').val()
-            let date = $('#date').val()
-
-            ipc.send('new_complain', [complainant, complain, date])
         })
 
     </script>

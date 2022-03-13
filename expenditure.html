@@ -49,6 +49,13 @@
     <script>
         let $ = require('jquery')
         let ipc = require('electron').ipcRenderer
+
+        ipc.on('success_addexpense', (event, args) => {
+            window.alert(args)
+        })
+        ipc.on('error_addexpense', (event, args) => {
+            window.alert(args)
+        })
         $('#expenditure_btn').on('click', () => {
             let expense = $('#expense').val()
             let amount = $('#amount').val()

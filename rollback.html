@@ -44,6 +44,13 @@
         <script>
             let $ = require('jquery')
             let ipc = require('electron').ipcRenderer
+            ipc.on('success_rollback', (event, args) => {
+                window.alert(args)
+            })
+            ipc.on('error_rollback', (event, args) => {
+                window.alert(args)
+            })
+
             $('#rollback_btn').on('click', () => {
                 let date = $('#transaction_date').val()
                 ipc.send('rollback_date', [date])

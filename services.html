@@ -82,6 +82,18 @@
         let $ = require('jquery')
         let ipc = require('electron').ipcRenderer
 
+        ipc.on('error_serviceandcars', (event, args) => {
+            window.alert(args)
+        })
+
+        ipc.on('success_chargesdata', (event, args) => {
+            window.alert(args)
+        })
+
+        ipc.on('error_chargesdata', (event, args) => {
+            window.alert(args)
+        })
+
         ipc.send('services_and_cars')
         ipc.on('servicesandcars', (event, args) => {
             let select = $('#service_type')

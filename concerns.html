@@ -83,6 +83,13 @@
     let $ = require('jquery')
     let ipc = require('electron').ipcRenderer
 
+    ipc.on('success_addcomplain', (event, args) => {
+        window.alert(args)
+    })
+    ipc.on('error_addcomplain', (event, args) => {
+        window.alert(args)
+    })
+
     ipc.send('all_complains')
     ipc.on('allcomplains', (event, args) => {
 
@@ -133,6 +140,8 @@
         let complainant = $('#complainant').val()
         let complain = $('#complain').val()
         let date = $('#date').val()
+
+
 
         ipc.send('new_complain', [complainant, complain, date])
     })

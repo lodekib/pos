@@ -128,6 +128,13 @@
         let $ = require('jquery')
         let ipc = require('electron').ipcRenderer
 
+        ipc.on('error_addtransaction', (event, args) => {
+            window.alert(args)
+        })
+        ipc.on('success_addtransaction', (event, args) => {
+            window.alert(args)
+        })
+
 
         $('#receipt').on('click', () => {
             var c_firstname = $('#first_name').val()

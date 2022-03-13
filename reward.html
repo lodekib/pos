@@ -72,13 +72,23 @@
         ipc.on('error_addreward', (event, args) => {
             window.alert(args)
         })
-
+        ipc.on('success_updatepoints', (event, args) => {
+            window.alert(args)
+        })
+        ipc.on('error_updatepoints', (event, args) => {
+            window.alert(args)
+        })
         $('#reward_btn').on('click', () => {
-            let c_firstname = $('#first_name').val()
-            let c_lastname = $('#last_name').val()
-            let c_plate = $('#number_plate').val()
-            let c_points = $('#points').val()
-            let date = $('#date').val()
+            let firstname = $('#first_name').val().trim()
+            let c_firstname = firstname.charAt(0).toUpperCase() + firstname.slice(1)
+            let lastname = $('#last_name').val().trim()
+            let c_lastname = lastname.charAt(0).toUpperCase() + lastname.slice(1)
+            let c_plate = $('#number_plate').val().trim()
+            let c_points = $('#points').val().trim()
+            let date = $('#date').val().trim()
+
+
+
             if (!c_firstname == '' && !c_lastname == '' && !c_plate == '' && !c_points == '' && !date == '') {
                 ipc.send('reward_points', [c_firstname, c_lastname, c_plate, c_points, date])
             } else {

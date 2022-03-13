@@ -51,6 +51,17 @@
         let $ = require('jquery')
         let ipc = require('electron').ipcRenderer
 
+        ipc.on('success_salaryupdate', (event, args) => {
+            window.alert(args)
+        })
+
+        ipc.on('error_salaryupdate', (event, args) => {
+            window.alert(args)
+        })
+        ipc.on('no_suchemployee', (event, args) => {
+            window.alert(args)
+        })
+
         $('#update_salary').on('click', () => {
             var phone = $('#phone_number').val()
             var pay_type = $('input[name="pay_type"]:checked').val()
