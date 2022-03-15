@@ -4,12 +4,187 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reports</title>
+    <link rel="stylesheet" href="dist/output.css" type="text/css">
+    <title>Report</title>
 </head>
 
 <body>
-    <h4>Reports</h4>
+    <div class="flex py-3 w-full justify-items-stretch">
+        <div class="-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="e_lastname">
+                Employee Last Name
+            </label>
+            <div class="relative">
+                <select
+                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    id="e_lastname" name="e_lastname">
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="w-full md:w-1/2 px-3 py-6 mb-6 md:mb-0 ">
+            <button id="employee_report_btn"
+                class="bg-amber-800 hover:bg-amber-300  text-white font-bold py-2 px-4 rounded">
+                Employee Report
+            </button>
+        </div>
+
+    </div>
+    <div id="spans" class="flex flex-wrap justify-start space-x-2  px-6 py-3 m-2">
+
+    </div>
+    <div class="flex w-full">
+        <div class="container mx-auto px-3 sm:px-8">
+            <div class="py-8">
+                <div class="-mx-4 sm:-mx-8 px-4 sm:px-3 py-4 overflow-x-auto">
+                    <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                        <table class="min-w-full leading-normal">
+                            <thead>
+                                <tr>
+                                    <th
+                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        Employee Name
+                                    </th>
+                                    <th
+                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        Client Name
+                                    </th>
+                                    <th
+                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        Client Plate Number
+                                    </th>
+                                    <th
+                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        Amount
+                                    </th>
+                                    <th
+                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        Date
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="tbody">
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let $ = require('jquery')
+        let ipc = require('electron').ipcRenderer
+
+        $('#employee_report_btn').on('click', () => {
+            let lastname = $('#e_lastname').val().trim()
+            if (!lastname == '') {
+                ipc.send('employee_report', [lastname])
+            } else {
+                window.alert('Please provide the employee name')
+            }
+        })
+
+        ipc.on('error_getpaymenttype', (event, args) => {
+            window.alert(args)
+        })
+
+        ipc.on('error_employeetransactions', (event, args) => {
+            window.alert(args)
+        })
+
+        ipc.on('success_employeetransaction', (event, args) => {
+            let paymode = document.querySelector('#spans')
+            let span1 = document.createElement('span')
+            span1.classList.add('px-4', 'py-2', 'rounded-full', 'text-green-700', 'bg-gray-200', 'font-semibold', 'text-sm', 'flex', 'align-center', 'w-max', 'cursor-pointer', 'active:bg-gray-300', 'transition', 'duration-300', 'ease')
+            span1.innerHTML = args[1]
+            paymode.append(span1)
+
+            let tbody = $('#tbody')
+            for (let i = 0; i < args[0].length; i++) {
+                let tr = document.createElement('tr')
+                let td = document.createElement('td')
+                let div = document.createElement('div')
+                let div2 = document.createElement('div')
+                let p = document.createElement('p')
+                let td2 = document.createElement('td')
+                let p2 = document.createElement('p')
+                let td3 = document.createElement('td')
+                let p3 = document.createElement('p')
+                let td4 = document.createElement('td')
+                let td5 = document.createElement('td')
+                let p5 = document.createElement('p5')
+                let span = document.createElement('span')
+
+                p.classList.add('text-gray-900', 'whitespace-no-wrap')
+                div.classList.add('flex', 'items-center')
+                div2.classList.add('ml-3')
+                td.classList.add('px-5', 'py-5', 'border-b', 'border-gray-200', 'bg-white', 'text-sm')
+                p.innerHTML = args[0][i].service_employee
+                div2.appendChild(p)
+                div.appendChild(div2)
+                td.appendChild(div)
+
+
+                td2.classList.add('px-5', 'py-5', 'border-b', 'border-gray-200', 'bg-white', 'text-sm')
+                p2.classList.add('text-gray-900', 'whitespace-no-wrap')
+                p2.innerHTML = args[0][i].client_lastname
+                td2.appendChild(p2)
+
+                td3.classList.add('px-5', 'py-5', 'border-b', 'border-gray-300', 'bg-white', 'text-sm')
+                p3.classList.add('text-gray-900', 'whitespace-no-wrap')
+                p3.innerHTML = args[0][i].car_plate
+                td3.appendChild(p3)
+
+                td4.classList.add('px-5', 'py-5', 'border-b', 'border-gray-300', 'bg-white', 'text-sm')
+                span.classList.add('relative', 'text-blue-900')
+                span.innerHTML = args[0][i].amount
+                td4.appendChild(span)
+
+                td5.classList.add('px-5', 'py-5', 'border-b', 'border-gray-500', 'bg-white', 'text-sm')
+                p5.classList.add('text-gray-900', 'whitespace-no-wrap')
+                p5.innerHTML = args[0][i].car_plate
+                td5.appendChild(p5)
+
+                tr.append(td, td2, td3, td4, td5)
+                tbody.append(tr)
+            }
+        })
+        $('#complain_btn').on('click', () => {
+            let complainant = $('#complainant').val()
+            let complain = $('#complain').val()
+            let date = $('#date').val()
+
+
+
+            ipc.send('new_complain', [complainant, complain, date])
+        })
+
+
+        ipc.send('employee_lastname_report')
+        ipc.on('employeelastnamereport', (event, args) => {
+            let select = $('#e_lastname')
+            for (let i = 0; i < args.length; i++) {
+                let option = document.createElement('option')
+                option.value = args[i].last_name
+                option.text = args[i].last_name
+                select.append(option)
+            }
+        })
+        ipc.on('error_employeelastnamereport', (event, args) => {
+            window.alert(args)
+        })
+    </script>
+
+</html>
 </body>
 
 </html>

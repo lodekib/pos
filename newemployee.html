@@ -71,7 +71,7 @@
                             class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="e_payment" name="e_payment">
                             <option value="salary">Fixed Salary</option>
-                            <option value="comission">Comission</option>
+                            <option value="commission">Commission</option>
                         </select>
                         <div
                             class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -109,12 +109,12 @@
         })
 
         $('#add_employee').on('click', () => {
-            var e_firstname = $('#e_firstname').val()
-            var e_lastname = $('#e_lastname').val()
-            var e_phone = $('#e_phone').val()
-            var e_type = $('#e_type').val()
-            var e_payment = $('#e_payment').val()
-            var e_salary = $('#e_salary').val()
+            var e_firstname = $('#e_firstname').val().trim()
+            var e_lastname = $('#e_lastname').val().trim()
+            var e_phone = $('#e_phone').val().trim()
+            var e_type = $('#e_type').val().trim()
+            var e_payment = $('#e_payment').val().trim()
+            var e_salary = $('#e_salary').val().trim()
             if (!e_firstname == '' && !e_lastname == '' && !e_phone == '' && !e_type == '' && !e_payment == '' && !e_salary == '') {
                 ipc.send('add_employee', [e_firstname, e_lastname, e_phone, e_type, e_payment, e_salary])
             } else {

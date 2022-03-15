@@ -11,6 +11,11 @@ module.exports = {
         window.removeMenu(true)
         window.loadFile('./new_transaction.html')
     },
+    createExpenseTap: (parent) => {
+        var window = new BrowserWindow({ parent: parent, width: 700, height: 600, modal: true, webPreferences: webPreferences })
+        window.removeMenu(true)
+        window.loadFile('./expense_tap.html')
+    },
     createRollback: (parent)=>{
         var window = new BrowserWindow({ parent: parent, width: 600, height: 450, modal: true ,webPreferences:webPreferences})
         window.loadFile('./rollback.html')
@@ -50,7 +55,7 @@ module.exports = {
         window.loadFile('./settings.html')
     },
     createReports: (parent) => {
-        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true ,webPreferences:webPreferences })
         window.loadFile('./reports.html')
     },
     createReward: (parent) => {

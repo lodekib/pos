@@ -3,15 +3,18 @@ const path = require("path");
 
 var date = Date()
 
-    function print(car_plate,service_type,amount,served_by){
+function print(car_plate, service_type, amount, served_by) {
+        console.log(`${car_plate} ${service_type} ${amount} ${served_by}`)
       const options = {
         preview: true,             // Preview in window or print
         width: '200px',               //  width of content body
-        margin: '10 10 10 10',
+        margin: '0 0 0 0',
         copies: 1,
         silent:false,                 // Number of copies to print
-        printerName: 'XP-80C',        // printerName: string, check with webContent.getPrinters()
-        pageSize: { height: 400, width: 200 }  // page size
+        // printerName: 'XP-80C',        // printerName: string, check with webContent.getPrinters()
+          pageSize: {
+              height: 10, width: 20
+          }  // page size
     }
 
     const data = [
@@ -29,7 +32,7 @@ var date = Date()
             css: { "font-weight": "700", "font-size": "18px" }
         }, {
             type: 'text',
-            position:'right',                   // 'text' | 'barCode' | 'qrCode' | 'image' | 'table'
+            position:'right',                   
             value:(new Date()).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " "),
             style: `color: black;`,
             css: { "text-decoration": "underline", "font-size": "10px" }
@@ -98,7 +101,8 @@ var date = Date()
     ]
 
     PosPrinter.print(data, options)
-        .then()
+        .then(() =>console.log('Printed Successfully')
+        )
         .catch((error) => {
             console.error(error);
         });

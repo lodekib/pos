@@ -2,7 +2,7 @@ const { app, BrowserWindow,ipcMain,screen} = require('electron')
 const path = require('path')
 const { createTransaction, createServices, createRollback, createExpenditure, createConcerns,
     createSalaryUpdate, createEmployees, createEmployee, createProfile, createSettings,
-    createReports,createReward, createClients,createNewService
+    createReports,createReward, createClients,createNewService,createExpenseTap
 } = require('./manage/manager')
 const { print } = require('./receipt')
 const { connectDB,disconnectDB } = require('./database/db')
@@ -43,7 +43,6 @@ let db = connectDB()
 }
 
 ipcMain.on('manager', (event, args) => {
-    console.log(args)
     // db.run("CREATE TABLE IF NOT EXISTS manager (email TEXT PRIMARY KEY,user NOT NULL,password NOT NULL)")
     // if (args != null) {
     //     db.run(`INSERT INTO manager(email,user,password) VALUES('${args[0]}','${args[1]}','${args[2]}')`)
@@ -55,6 +54,7 @@ ipcMain.on('manager', (event, args) => {
         }else if (row.password == args[2]) {
             win.show()
             child.hide()
+            event.sender.send('login_success',`${args[0]}`)
         } else{
           event.sender.send('login_error','Invalid Credentials')
         }
@@ -98,7 +98,7 @@ ipcMain.on('table_data', (event, args) =>{
 })
 
 ipcMain.on('add_employee', (event, args) => {
-    // db.run("CREATE TABLE IF NOT EXISTS employees (first_name NOT NULL,last_name NOT NULL, phone_number NOT NULL,employee_type NOT NULL,payment NOT NULL,salary NOT NULL ) ")
+    db.run("CREATE TABLE IF NOT EXISTS employees (first_name NOT NULL,last_name NOT NULL, phone_number NOT NULL,employee_type NOT NULL,payment NOT NULL,salary NOT NULL ) ")
     if (db.run(`INSERT INTO employees (first_name,last_name,phone_number,employee_type,payment,salary) VALUES('${args[0]}','${args[1]}','${args[2]}','${args[3]}','${args[4]}','${args[5]}')`)) {
         event.sender.send('success_addemployee','Employee added successfully')
     } else {
@@ -148,7 +148,7 @@ ipcMain.on('update_salary', (event, args) => {
     })
 })
 ipcMain.on('newservice', (event, args) => {
-//  db.run("CREATE TABLE IF NOT EXISTS services (service_name NOT NULL,saloon_car,four_wheel_SUVs,bus,trailer,mini_bus,motorcycle,pickup,canter,double_cabin)")
+db.run("CREATE TABLE IF NOT EXISTS services (service_name NOT NULL,saloon_car,four_wheel_SUVs,bus,trailer,mini_bus,motorcycle,pickup,canter,double_cabin)")
    let sql =db.run(`INSERT INTO services (service_name,saloon_car,four_wheel_SUVs,bus,trailer,mini_bus,motorcycle) VALUES('${args}','','','','','','')`)
     if (sql) {
         event.sender.send('success_addservice', 'Service added successfully')    
@@ -225,6 +225,117 @@ ipcMain.on('all_employees', (event,args) => {
         }
     })
 })
+ipcMain.on('transaction_services', (event, args) => {
+    let sql = "SELECT service_name FROM services"
+    db.all(sql, [], (err, row) => {
+        if (err) {
+            return console.log(err.message)
+        }
+        if (row.length > 0) {
+            event.sender.send('success_allservices',row)
+        } else {
+            event.sender.send('error_alltransactions','No services available at the moment')
+        }
+
+    })
+})
+
+ipcMain.on('transaction_cars', (event, args) => {
+    let sql = "PRAGMA table_info(services)"
+    db.all(sql, [], (err, cols) => {
+        if (err) {
+            return console.log(err.message)
+        }
+        if (cols.length > 0) {
+            event.sender.send('success_allcars', cols)
+        } else {
+            event.sender.send('error_allcars', 'No services available at the moment')
+        }
+
+    })
+})
+ipcMain.on('employee_report', (event, args) => {
+    console.log(args)
+    let sql = `SELECT * FROM transactions WHERE service_employee = ?`
+    db.all(sql, [args[0]], (err,row) => {
+        if (err) {
+            return console.log(err.message)
+        }else
+        if (row.length > 0) {
+            let query = `SELECT payment,salary FROM employees WHERE last_name = ?`
+            db.all(query, [args[0]], (er, empl) => {
+                if (er) return console.log(err.message)  
+                if (empl.length > 0) {
+                    if (empl[0].payment == 'salary') {
+                        console.log(empl[0].salary)
+                        let sal = `Salary : ${empl[0].salary}`
+                        event.sender.send('success_employeetransaction', [row,sal])
+                    } else {
+                        console.log(row)
+                        let sum = 0
+                        for (let i = 0; i < row.length; i++){
+                             sum+=row[i].amount
+                        }
+                        let total_commission = (empl[0].salary / 100) * sum
+                        let com_relp = `Total Commision : ${total_commission}`
+                        event.sender.send('success_employeetransaction', [row,com_relp])
+
+                    }
+                } else {
+                     event.sender.send('error_getpaymenttype', 'Unable to get payment type for the employee')
+                }
+            }) 
+           
+        } else {
+            event.sender.send('error_employeetransactions','No transactions made by the employee yet')
+        }
+    })
+})
+ipcMain.on('employee_lastname_report', (event, args) => {
+    let sql = "SELECT last_name FROM employees"
+    db.all(sql, [], (err, row) => {
+        if (err) {
+            return console.log(err.message)
+        }
+        if (row.length > 0) {
+            event.sender.send('employeelastnamereport', row.reverse())
+        } else {
+            event.sender.send('error_employeelastnamereport', 'NO such Employee')
+        }
+
+    })
+})
+
+ipcMain.on('all_expenses', (event, args) => {
+    let sql = "SELECT amount FROM expenses"
+    db.all(sql, [], (err, row) => {
+        if (err) {
+            return console.log(err.message)
+        } else if (row.length < 1) {
+            event.sender.send('no_expenses','No revenue Collected')
+        } else {
+            let sum = 0
+            for (let i = 0; i < row.length; i++){
+                sum+=parseInt(row[i].amount)
+            }
+            console.log(sum)
+            event.sender.send('allexpenses', sum)
+        }
+    })
+})
+
+ipcMain.on('all_exp', (event, args) => {
+    let sql = "SELECT * FROM expenses"
+    db.all(sql, [], (err, row) => {
+        if (err) return console.log(err.message)
+        if (row.length > 0) {
+            event.sender.send('allexp',row)
+        } else {
+            event.sender.send('error_exp','No expenses inccured yet')
+        }
+    })
+})
+
 ipcMain.on('add_service',()=> createNewService(win))
 ipcMain.on('transaction', () => createTransaction(win))
 ipcMain.on('rollback', () => createRollback(win))
@@ -238,6 +349,7 @@ ipcMain.on('profile', () => createProfile(win))
 ipcMain.on('settings', () => createSettings(win))
 ipcMain.on('reports', () => createReports(win))
 ipcMain.on('reward', () => createReward(win))
+ipcMain.on('expenses_tap',()=>createExpenseTap(win))
 ipcMain.on('clients', () => createClients(win))
 ipcMain.on('logout', () => {
     win.close()

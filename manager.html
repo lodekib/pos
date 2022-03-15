@@ -141,7 +141,6 @@
                 </svg>
               </span>
               <span class="ml-3">Employees</span>
-
             </a>
           </li>
           <li class="my-px">
@@ -196,10 +195,7 @@
             <div class="hidden md:flex relative">
 
               <button id="reports"
-                class="hover:bg-grey text-grey-darkest font-bold py-2 px-4 border rounded inline-flex items-center">
-                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                  <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
-                </svg>
+                class="hover:bg-grey border-amber-800 text-grey-darkest font-bold py-2 px-4 border rounded inline-flex items-center">
                 <span>Reports</span>
               </button>
             </div>
@@ -216,7 +212,7 @@
             <a href class="flex flex-row items-center">
               <img src="./assets/splash.png" alt class="h-10 w-10 bg-gray-200 border rounded-full" />
               <span class="flex flex-col ml-2">
-                <span class="truncate w-20 font-semibold tracking-wide leading-none">John Doe</span>
+                <span id="manager" class="truncate w-20 font-semibold tracking-wide leading-none"></span>
                 <span class="truncate w-20 text-gray-500 text-xs leading-none mt-1">Manager</span>
               </span>
             </a>
@@ -237,7 +233,7 @@
                   </svg>
                 </div>
                 <div>
-                  <p class=" cursor-pointer mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
                     Total Employees
                   </p>
                   <p id="emp" class="text-lg font-semibold text-gray-700 dark:text-gray-200">
@@ -263,27 +259,31 @@
                 </div>
               </div>
             </div>
-            <div class="min-w-0 rounded-lg shadow-xs overflow-hidden bg-white dark:bg-gray-800">
-              <div class="p-4 flex items-center">
-                <div class="p-3 rounded-full text-blue-500 dark:text-blue-100 bg-blue-100 dark:bg-blue-500 mr-4">
-                  <svg fill="currentColor" viewBox="0 0 20 20" class="w-5 h-5">
-                    <path
-                      d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z">
-                    </path>
-                  </svg>
-                </div>
-                <div>
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Expenses
-                  </p>
-                  <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                    4,560
-                  </p>
+            <a>
+              <div id="expense_tap"
+                class="min-w-0 rounded-lg shadow-xs overflow-hidden bg-white dark:bg-gray-800 hover:bg-gray-500 cursor-pointer">
+                <div class="p-4 flex items-center">
+                  <div class="p-3 rounded-full text-blue-500 dark:text-blue-100 bg-blue-100 dark:bg-blue-500 mr-4">
+                    <svg fill="currentColor" viewBox="0 0 20 20" class="w-5 h-5">
+                      <path
+                        d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z">
+                      </path>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                      Expenses
+                    </p>
+                    <p id="exp" class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="min-w-0 rounded-lg shadow-xs overflow-hidden bg-white dark:bg-gray-800">
-              <div id="reward" class="p-4 flex items-center">
+            </a>
+            <div id="reward"
+              class="min-w-0 rounded-lg shadow-xs overflow-hidden bg-white dark:bg-gray-800 cursor-pointer">
+              <div class="p-4 flex items-center">
                 <div class="p-3 rounded-full text-teal-500 dark:text-teal-100 bg-teal-100 dark:bg-teal-500 mr-4">
                   <svg fill="currentColor" viewBox="0 0 20 20" class="w-5 h-5">
                     <path fill-rule="evenodd"
@@ -351,6 +351,9 @@
     let ipc = require('electron').ipcRenderer
     let index = 0
     let sum = 0
+    ipc.on('login_success', (event, args) => {
+      $('#manager').innerHTML = args
+    })
     ipc.on('no_revenue', (event, args) => {
       let rev = document.querySelector('#rev')
       rev.innerHTML = 0
@@ -362,6 +365,11 @@
         sum += args[i].amount
       }
       rev.innerHTML = 'Ksh ' + sum
+    })
+
+    ipc.send('all_expenses')
+    ipc.on('allexpenses', (event, args) => {
+      exp.innerHTML = args
     })
     ipc.send('all_employees')
     ipc.on('allemployees', (event, args) => {
@@ -453,6 +461,10 @@
     })
     $('#logout').on('click', () => {
       ipc.send('logout')
+    })
+
+    $('#expense_tap').on('click', () => {
+      ipc.send('expenses_tap')
     })
 
 
