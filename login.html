@@ -77,15 +77,13 @@
 
 
         $('#btn-login').on('click', () => {
-            var email = $('#email').val()
-            var password = $('#password').val()
-            var user = $('#user').val()
+            var email = $('#email').val().trim()
+            var password = $('#password').val().trim()
+            var user = $('#user').val().trim()
 
             if (!email == '' && !password == '') {
                 if (user == 'manager') {
-
                     ipc.send('manager', [email, user, password])
-
                 } else if (user == 'admin') {
                     ipc.send('admin', email)
                 }

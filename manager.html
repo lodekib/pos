@@ -192,13 +192,21 @@
       <header class="header bg-white shadow py-4 px-4">
         <div class="header-content flex items-center flex-row">
           <form action="#">
-            <div class="hidden md:flex relative">
-
-              <button id="reports"
-                class="hover:bg-grey border-amber-800 text-grey-darkest font-bold py-2 px-4 border rounded inline-flex items-center">
-                <span>Reports</span>
-              </button>
+            <div class="flex">
+              <div class="hidden md:flex relative mr-3">
+                <button id="reports"
+                  class="hover:bg-grey border-amber-800 text-grey-darkest font-bold py-2 px-4 border rounded inline-flex items-center">
+                  <span>Reports</span>
+                </button>
+              </div>
+              <div class="hidden md:flex relative">
+                <button id="clients"
+                  class="hover:bg-grey border-amber-800 text-grey-darkest font-bold py-2 px-4 border rounded inline-flex items-center">
+                  <span>Clients</span>
+                </button>
+              </div>
             </div>
+
             <div class="flex md:hidden">
               <a href="#" class="flex items-center justify-center h-10 w-10 border-transparent">
                 <svg class="h-6 w-6 text-gray-500" fill="none" stroke-linecap="round" stroke-linejoin="round"
@@ -369,7 +377,7 @@
 
     ipc.send('all_expenses')
     ipc.on('allexpenses', (event, args) => {
-      exp.innerHTML = args
+      exp.innerHTML = 'Ksh ' + args
     })
     ipc.send('all_employees')
     ipc.on('allemployees', (event, args) => {

@@ -60,7 +60,12 @@
             let expense = $('#expense').val()
             let amount = $('#amount').val()
             let date = $('#date').val()
-            ipc.send('addexpense', [expense, amount, date])
+            if (!expense == '' && !amount == '' && !date == '') {
+                ipc.send('addexpense', [expense, amount, date])
+
+            } else {
+                window.alert('Please provide the missing fields')
+            }
         })
 
 

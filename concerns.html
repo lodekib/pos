@@ -139,10 +139,13 @@
             let complainant = $('#complainant').val()
             let complain = $('#complain').val()
             let date = $('#date').val()
+            if (!complainant == '' && !complain == '' && !date == '') {
+                ipc.send('new_complain', [complainant, complain, date])
+            } else {
+                window.alert('Please prvide the missing fields')
+            }
 
 
-
-            ipc.send('new_complain', [complainant, complain, date])
         })
 
     </script>

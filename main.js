@@ -318,7 +318,6 @@ ipcMain.on('all_expenses', (event, args) => {
             for (let i = 0; i < row.length; i++){
                 sum+=parseInt(row[i].amount)
             }
-            console.log(sum)
             event.sender.send('allexpenses', sum)
         }
     })
@@ -335,6 +334,22 @@ ipcMain.on('all_exp', (event, args) => {
         }
     })
 })
+
+
+ipcMain.on('all_clie', (event, args) => {
+    let sql = 'SELECT * FROM clients'
+    db.all(sql, [], (err, row) => {
+        if (err) {
+            console.log(err.message)
+        }
+        if (row.length > 0) {
+            event.sender.send('allclie', row.reverse())
+        } else {
+            event.sender.send('no_clients', 'No clients at the moment')
+        }
+    })
+})
+
 
 ipcMain.on('add_service',()=> createNewService(win))
 ipcMain.on('transaction', () => createTransaction(win))
@@ -364,7 +379,6 @@ ipcMain.on('receipt', (event, args) => {
     } else {
         event.sender.send('error_addtransaction','Unable to complete transaction')
     }
-    console.log(args)
     // db.run("CREATE TABLE transactions (client_firstname NOT NULL,client_lastname NOT NULL,car_plate NOT NULL,service_employee NOT NULL,client_car_type NOT NULL,service_offered NOT NULL,amount INTEGER NOT NULL,date DATE NOT NULL)")
 //    print(args[0], args[1], args[2], args[3]) 
 })
