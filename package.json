@@ -1,11 +1,12 @@
 {
-  "name": "cwash",
+  "name": "splash",
   "version": "1.0.0",
   "description": "Cwash Desktop App",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "postinstall": "install-app-deps",
+    "packaging":"electron-packager cwash splash --platform=win32 --arch=x64",
     "build": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
   },
   "author": "brooksys technologies",

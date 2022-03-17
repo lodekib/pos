@@ -260,12 +260,13 @@ ipcMain.on('transaction_cars', (event, args) => {
 })
 ipcMain.on('employee_report', (event, args) => {
     console.log(args)
-    let sql = `SELECT * FROM transactions WHERE service_employee = ?`
-    db.all(sql, [args[0]], (err,row) => {
+    let sql = `SELECT * FROM transactions WHERE service_employee = ? AND date BETWEEN ? AND ?`
+    db.all(sql, [args[0],args[1],args[2]], (err,row) => {
         if (err) {
             return console.log(err.message)
         }else
-        if (row.length > 0) {
+            if (row.length > 0) {
+            console.log(row)
             let query = `SELECT payment,salary FROM employees WHERE last_name = ?`
             db.all(query, [args[0]], (er, empl) => {
                 if (er) return console.log(err.message)  

@@ -25,6 +25,25 @@
                     </svg>
                 </div>
             </div>
+            <div class="flex">
+                <div class="w-full md:w-1/2 py-4">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold pt-4 " for="startdate">
+                        Start Date
+                    </label>
+                    <input
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        id="startdate" name="startdate" type="datetime-local" required>
+                </div>
+                <div class="w-full md:w-1/2 py-4 px-3">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold pt-4 " for="enddate">
+                        End Date
+                    </label>
+                    <input
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        id="enddate" name="enddate" type="datetime-local" required>
+                </div>
+            </div>
+
 
         </div>
 
@@ -87,10 +106,12 @@
 
         $('#employee_report_btn').on('click', () => {
             let lastname = $('#e_lastname').val().trim()
-            if (!lastname == '') {
-                ipc.send('employee_report', [lastname])
+            let startdate = $('#startdate').val()
+            let enddate = $('#enddate').val()
+            if (!lastname == '' && !startdate == '' && !enddate == '') {
+                ipc.send('employee_report', [lastname, startdate, enddate])
             } else {
-                window.alert('Please provide the employee name')
+                window.alert('Please provide missing fields')
             }
         })
 
