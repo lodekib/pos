@@ -1,4 +1,5 @@
-const { app, BrowserWindow,ipcMain,screen} = require('electron')
+const { app, BrowserWindow, ipcMain, screen} = require('electron')
+
 const path = require('path')
 const { createTransaction, createServices, createRollback, createExpenditure, createConcerns,
     createSalaryUpdate, createEmployees, createEmployee, createProfile, createSettings,
@@ -17,19 +18,21 @@ let db = connectDB()
     win = new BrowserWindow({ width: width,modal:true,height: height,show: false,webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
-     
+            enableRemoteModule:true
         } 
     })
-     printers = win.webContents.getPrintersAsync()
-     console.log('Printers :'+printers)
-    // win.removeMenu(true)
+     win.removeMenu(true)
     win.loadFile(path.join(__dirname, './manager.html'),)
     win2 = new BrowserWindow({width: width,  height: height,show: false,webPreferences: {
             nodeIntegration: true,
-            contextIsolation: false
-        }
+        contextIsolation: false,
+            enableRemoteModule:true
+    }
 
     })
+     printers = win.webContents.getPrintersAsync()
+     console.log(printers)
+     console.log(typeof(printers))
     win2.loadFile(path.join(__dirname,'./admin.html'))
     
     child = new BrowserWindow({opacity: 0.75,roundedCorners:true,transparent:true, width: width,height: height,frame: true,webPreferences: {
@@ -47,11 +50,12 @@ ipcMain.on('manager', (event, args) => {
     // if (args != null) {
     //     db.run(`INSERT INTO manager(email,user,password) VALUES('${args[0]}','${args[1]}','${args[2]}')`)
     // }
-    let sql = `SELECT password FROM manager WHERE email = ?`
-    db.get(sql, [args[0]], (err, row) => {
+    let sql = `SELECT * FROM manager WHERE email = ?`
+    db.all(sql, [args[0]], (err, row) => {
+        console.log(row.length)
         if (err) {
             return console.error(err.message)
-        }else if (row.password == args[2]) {
+        }else if (row.length > 0 && row[0].password == args[2]) {
             win.show()
             child.hide()
             event.sender.send('login_success',`${args[0]}`)
@@ -371,23 +375,38 @@ ipcMain.on('logout', () => {
     child.show()
 })
 
+ipcMain.on('logout_admin', () => {
+    win2.close()
+    child.show()
+})
 ipcMain.on('receipt', (event, args) => {
    let query= db.run(`INSERT INTO transactions (client_firstname,client_lastname,car_plate,service_employee,client_car_type,service_offered,amount,date) VALUES('${args[0]}','${args[1]}','${args[2]}','${args[3]}','${args[4]}','${args[5]}','${args[6]}','${args[7]}')`)
     if (query) {
-        print(args[2], args[4], args[6], args[3])
+        print(args[2], args[5], args[6], args[3],win)
         event.sender.send('success_addtransaction','Transaction completed successfully')
     } else {
         event.sender.send('error_addtransaction','Unable to complete transaction')
     }
-    // db.run("CREATE TABLE transactions (client_firstname NOT NULL,client_lastname NOT NULL,car_plate NOT NULL,service_employee NOT NULL,client_car_type NOT NULL,service_offered NOT NULL,amount INTEGER NOT NULL,date DATE NOT NULL)")
+//     db.run("CREATE TABLE transactions (client_firstname NOT NULL,client_lastname NOT NULL,car_plate NOT NULL,service_employee NOT NULL,client_car_type NOT NULL,service_offered NOT NULL,amount INTEGER NOT NULL,date DATE NOT NULL)")
 //    print(args[0], args[1], args[2], args[3]) 
 })
     
-
-
-ipcMain.on('admin', () => {
-    win2.show()
-    child.hide()
+ipcMain.on('admin', (event, args) => {
+    //  db.run("CREATE TABLE IF NOT EXISTS admin (email TEXT PRIMARY KEY,user NOT NULL,password NOT NULL)")
+   // console.log(args)
+ //   db.run(`INSERT INTO admin(email,user,password) VALUES('${args[0]}','${args[1]}','${args[2]}')`)
+    let sql = `SELECT * FROM admin WHERE email = ?`
+    db.all(sql, [args[0]], (err, pass) => {
+        if (err) {
+            return console.error(err.message)
+        } else if ( pass.length > 0 && pass[0].password == args[2]) {
+            win2.show()
+            child.hide()
+            event.sender.send('login_success', `${args[0]}`)
+        } else {
+            event.sender.send('login_error', 'Invalid Credentials')
+        }
+    })  
 })
 
 app.whenReady().then(() => {

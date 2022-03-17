@@ -1,19 +1,17 @@
-const { PosPrinter } = require("electron-pos-printer");
-const path = require("path");
+const { PosPrinter } =require("electron-pos-printer");
+const path = require('path');
 
-var date = Date()
 
-function print(car_plate, service_type, amount, served_by) {
-        console.log(`${car_plate} ${service_type} ${amount} ${served_by}`)
-      const options = {
+function print(car_plate, service_type, amount, served_by,printer) {
+        const options = {
         preview: true,             // Preview in window or print
         width: '200px',               //  width of content body
-        margin: '0 0 0 0',
+        margin: '10 10 10 10',
         copies: 1,
         silent:false,                 // Number of copies to print
-        // printerName: 'XP-80C',        // printerName: string, check with webContent.getPrinters()
+         printerName:printer,        // printerName: string, check with webContent.getPrinters()
           pageSize: {
-              height: 10, width: 20
+              height: 1000, width: 400
           }  // page size
     }
 
@@ -33,14 +31,14 @@ function print(car_plate, service_type, amount, served_by) {
         }, {
             type: 'text',
             position:'right',                   
-            value:(new Date()).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " "),
+            value:(new Date()).toLocaleString().slice(0, 19).replace(/-/g, "/").replace("T", " "),
             style: `color: black;`,
-            css: { "text-decoration": "underline", "font-size": "10px" }
+            css: {"text-decoration": "underline", "font-size": "10px" }
         }, {
             type: 'text',
             position: 'center',
             value: 'SPLASH BUSINESS HUB LIMITED',
-            style: `color:black;font-size:22px`,
+            style: `color:black;font-size:18px`,
     
         },
         {
@@ -82,7 +80,7 @@ function print(car_plate, service_type, amount, served_by) {
             type: 'text',
             position: 'center',
             value: `${car_plate}`,
-            style: `color:black;font-size:25px`,
+            style: `color:black;font-size:20px`,
 
         },
         {
@@ -91,12 +89,10 @@ function print(car_plate, service_type, amount, served_by) {
             tableHeader: ['Service', 'Price'],
             tableBody: [
                 [`${service_type}`,amount],
-                ['Full body', 1000],
             ],
-            tableFooter: [`Welcome again, Served by ${served_by}`],
-            tableHeaderStyle: 'background-color: #000; color: black;',
+            tableFooter: [`Served by ${served_by}`],
+            tableHeaderStyle: 'background-color: #000; color: white;',
             tableBodyStyle: 'border: 0.5px solid #ddd',
-            tableFooterStyle: 'background-color: #000; color: black;',
         },
     ]
 

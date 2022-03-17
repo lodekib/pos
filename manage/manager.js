@@ -2,13 +2,14 @@ const { BrowserWindow } = require('electron')
 
 const webPreferences = {
     nodeIntegration: true,
-    contextIsolation:false
+    contextIsolation: false,
+    enableRemoteModule:true
 }
 
 module.exports = {
     createTransaction: (parent)=>{
         var window = new BrowserWindow({ parent: parent, width: 800, height: 600, modal: true,webPreferences:webPreferences})
-        window.removeMenu(true)
+       // window.removeMenu(true)
         window.loadFile('./new_transaction.html')
     },
     createExpenseTap: (parent) => {
@@ -17,11 +18,13 @@ module.exports = {
         window.loadFile('./expense_tap.html')
     },
     createRollback: (parent)=>{
-        var window = new BrowserWindow({ parent: parent, width: 600, height: 450, modal: true ,webPreferences:webPreferences})
+        var window = new BrowserWindow({ parent: parent, width: 600, height: 450, modal: true, webPreferences: webPreferences })
+        window.removeMenu(true)
         window.loadFile('./rollback.html')
     },
     createExpenditure: (parent)=>{
-        var window = new BrowserWindow({ parent: parent, width: 600, height: 450, modal: true,webPreferences:webPreferences})
+        var window = new BrowserWindow({ parent: parent, width: 600, height: 450, modal: true, webPreferences: webPreferences })
+        window.removeMenu(true)
         window.loadFile('./expenditure.html')
     },
     createServices: (parent)=>{
@@ -30,7 +33,8 @@ module.exports = {
         window.loadFile('./services.html')
     },
     createConcerns: (parent)=>{
-        var window = new BrowserWindow({ parent: parent, width: 800, height: 450, modal: true,webPreferences:webPreferences })
+        var window = new BrowserWindow({ parent: parent, width: 800, height: 450, modal: true, webPreferences: webPreferences })
+        window.removeMenu(true)
         window.loadFile('./concerns.html')
     },
     createSalaryUpdate: (parent) => {
@@ -43,11 +47,13 @@ module.exports = {
         window.loadFile('./employees.html')
     },
     createEmployee: (parent) => {
-        var window = new BrowserWindow({ parent: parent, width: 800, height: 500, modal: true,webPreferences:webPreferences })
+        var window = new BrowserWindow({ parent: parent, width: 800, height: 500, modal: true, webPreferences: webPreferences })
+        window.removeMenu(true)
         window.loadFile('./newemployee.html')
     },
     createProfile: (parent) => {
         var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true })
+        window.removeMenu(true)
         window.loadFile('./profile.html')
     },
     createSettings: (parent) => {
@@ -55,16 +61,18 @@ module.exports = {
         window.loadFile('./settings.html')
     },
     createReports: (parent) => {
-        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true ,webPreferences:webPreferences })
+        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true, webPreferences: webPreferences })
+        window.removeMenu(true)
         window.loadFile('./reports.html')
     },
     createReward: (parent) => {
-        var window = new BrowserWindow({ parent: parent, width: 600, height: 400, modal: true, webPreferences: webPreferences })
-        // window.removeMenu(true)
+        var window = new BrowserWindow({ parent: parent, width: 800, height: 500, modal: true, webPreferences: webPreferences })
+         window.removeMenu(true)
         window.loadFile('./reward.html')
     },
     createClients: (parent) => {
-        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true , webPreferences:webPreferences })
+        var window = new BrowserWindow({ parent: parent, width: 1000, height: 500, modal: true, webPreferences: webPreferences })
+        window.removeMenu(true)
         window.loadFile('./clients.html')
     },
     createNewService: (parent) => {

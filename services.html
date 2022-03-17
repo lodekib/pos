@@ -103,10 +103,15 @@
             }
         })
         $('#charge_update').on('click', () => {
-            let service = $('#service_type').val()
-            let car = $('#vehicle_type').val()
-            let charge = $('#charges').val()
-            ipc.send('charges_data', [service, car, charge])
+            let service = $('#service_type').val().trim()
+            let car = $('#vehicle_type').val().trim()
+            let charge = $('#charges').val().trim()
+
+            if (!service == '' && !car == '' && !charge == '') {
+                ipc.send('charges_data', [service, car, charge])
+            } else {
+                window.alert('Please provide missing fields')
+            }
         })
     </script>
 </body>

@@ -63,11 +63,16 @@
         })
 
         $('#update_salary').on('click', () => {
-            var phone = $('#phone_number').val()
-            var pay_type = $('input[name="pay_type"]:checked').val()
-            var sal_com = $('#new_sal_com').val()
+            var phone = $('#phone_number').val().trim()
+            var pay_type = $('input[name="pay_type"]:checked').val().trim()
+            var sal_com = $('#new_sal_com').val().trim()
 
-            ipc.send('update_salary', [phone, pay_type, sal_com])
+            if (!phone == '' && !pay_type == '' && !sal_com == '') {
+                ipc.send('update_salary', [phone, pay_type, sal_com])
+            } else {
+                window.alert('Provide the missing fields')
+            }
+
         })
     </script>
 </body>

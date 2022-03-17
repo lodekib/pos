@@ -85,7 +85,7 @@
                 if (user == 'manager') {
                     ipc.send('manager', [email, user, password])
                 } else if (user == 'admin') {
-                    ipc.send('admin', email)
+                    ipc.send('admin', [email, user, password])
                 }
             } else {
                 window.alert('Please provide missing fields')
