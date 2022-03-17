@@ -6,13 +6,13 @@
   "scripts": {
     "start": "electron .",
     "postinstall": "install-app-deps",
-    "packaging":"electron-packager cwash splash --platform=win32 --arch=x64",
+    "lodeki_package": "npx electron-packager ~/Documents/Wireframes/cwash splash --all --prune=false",
     "build": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
   },
   "author": "brooksys technologies",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^17.1.0",
+    "electron": "^17.1.2",
     "electron-builder": "^22.14.13",
     "electron-packager": "^15.4.0",
     "electron-rebuild": "^3.2.7",

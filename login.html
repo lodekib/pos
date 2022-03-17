@@ -8,18 +8,12 @@
     <title>Splash Car Wash</title>
 </head>
 
-<body">
+<body>
     <div class="bg-gray-200 h-screen overflow-hidden flex items-center justify-center">
-        <div class="w-10/12 lg:w-9/12 xl:w-7/12 flex">
-            <div class="h-auto hidden lg:block lg:w-1/2 rounded-lg lg:rounded-r-none">
-                <div class="flex justify-self-center">
-                    <img src="./assets/splash.png">
-                </div>
-            </div>
-            <div class="w-full lg:w-1/2 bg-white rounded-lg lg:rounded-l-none py-24 px-12">
-                <h3 class="font-bold text-3xl text-red-600 text-center tracking-widest uppercase mb-4">Login</h3>
+        <div class="w-full lg:w-9/12 xl:w-7/12 flex">
+            <div class="w-full lg:w-1/2 bg-white rounded-lg lg:rounded-l-none py-24 px-12 ">
+                <h3 class="font-bold text-3xl text-amber-900 text-center tracking-widest uppercase mb-4">Login</h3>
                 <form class="bg-white">
-
                     <div class="mb-2">
                         <label class="block mb-2 text-sm font-bold" for="email">
                             Email
@@ -57,14 +51,17 @@
                         </button>
                     </div>
                     <hr class="mb-4 border-t" />
-                    <!-- <div class="text-sm text-center">
-                    <a href="#">Create an Account</a>
-                    <a href="#" class="text-blue-500 pl-2">Forgot Password ?</a>
-                </div> -->
                 </form>
             </div>
+            <div class="h-auto  lg:block lg:w-1/2 rounded-lg lg:rounded-r-none flex justify-end ">
+                <div class="">
+                    <img src="./assets/UniPos logo 001.png" alt="" height="120px" width="200px">
+                </div>
+            </div>
         </div>
+        <footer>Broooksys 1nc. All Rights Reserved &#9400; | 0724907783</footer>
     </div>
+
 
     <script>
         let $ = require('jquery')
@@ -90,9 +87,8 @@
             } else {
                 window.alert('Please provide missing fields')
             }
-
         })
     </script>
-    </body>
+</body>
 
 </html>

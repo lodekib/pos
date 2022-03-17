@@ -31,8 +31,6 @@ let db = connectDB()
 
     })
      printers = win.webContents.getPrintersAsync()
-     console.log(printers)
-     console.log(typeof(printers))
     win2.loadFile(path.join(__dirname,'./admin.html'))
     
     child = new BrowserWindow({opacity: 0.75,roundedCorners:true,transparent:true, width: width,height: height,frame: true,webPreferences: {
@@ -40,7 +38,7 @@ let db = connectDB()
             contextIsolation:false
         }
     })
-     child.removeMenu(true)
+    //  child.removeMenu(true)
     child.loadFile(path.join(__dirname, './login.html'))
     
 }
