@@ -9,7 +9,7 @@ const webPreferences = {
 module.exports = {
     createTransaction: (parent)=>{
         var window = new BrowserWindow({ parent: parent, width: 800, height: 600, modal: true,webPreferences:webPreferences})
-       // window.removeMenu(true)
+        window.removeMenu(true)
         window.loadFile('./new_transaction.html')
     },
     createExpenseTap: (parent) => {

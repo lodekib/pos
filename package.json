@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron .",
     "postinstall": "electron-builder install-app-deps",
-    "brooksys_packaging": "electron-packager . Splash --asar --platform=win32",
+    "brooksys_packaging": "electron-packager . Splash --asar --all",
     "build": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
   },
   "author": "brooksys technologies",

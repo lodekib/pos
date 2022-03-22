@@ -38,7 +38,7 @@ let db = connectDB()
             contextIsolation:false
         }
     })
-    //  child.removeMenu(true)
+      child.removeMenu(true)
     child.loadFile(path.join(__dirname, './login.html'))
     
 }
