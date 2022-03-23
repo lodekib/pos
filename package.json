@@ -1,26 +1,36 @@
 {
   "name": "splash",
-  "version": "1.0.0",
-  "description": "Cwash Desktop App",
+  "version": "0.0.1",
+  "license": "MIT",
+  "description": "splash car wash",
+  "author": "brooksys technologies",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
-    "postinstall": "electron-builder install-app-deps",
-    "brooksys_packaging": "electron-packager . Splash --asar --all",
-    "build": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
+    "postinstall": "install-app-deps",
+    "start": "npm install && electron ./app",
+    "pack": "build --dir",
+    "dist": "electron-builder"
   },
-  "author": "brooksys technologies",
-  "license": "MIT",
-  "devDependencies": {
-    "electron": "^17.1.2",
-    "electron-builder": "^22.14.13",
-    "electron-rebuild": "^3.2.7",
-    "tailwindcss": "^3.0.23"
+  "build": {
+    "appId": "splashID",
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "NSIS"
+    }
   },
   "dependencies": {
     "electron-pos-printer": "^1.2.4",
     "fs": "^0.0.1-security",
     "jquery": "^3.6.0",
     "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "electron": "latest",
+    "electron-builder": "latest"
   }
 }

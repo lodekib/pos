@@ -38,7 +38,7 @@ let db = connectDB()
             contextIsolation:false
         }
     })
-      child.removeMenu(true)
+    //   child.removeMenu(true)
     child.loadFile(path.join(__dirname, './login.html'))
     
 }
@@ -381,7 +381,7 @@ ipcMain.on('logout_admin', () => {
 ipcMain.on('receipt', (event, args) => {
    let query= db.run(`INSERT INTO transactions (client_firstname,client_lastname,car_plate,service_employee,client_car_type,service_offered,amount,date) VALUES('${args[0]}','${args[1]}','${args[2]}','${args[3]}','${args[4]}','${args[5]}','${args[6]}','${args[7]}')`)
     if (query) {
-        print(args[2], args[5], args[6], args[3],win)
+        print(args[2], args[5], args[6], args[3],'POS-PRINTER')
         event.sender.send('success_addtransaction','Transaction completed successfully')
     } else {
         event.sender.send('error_addtransaction','Unable to complete transaction')
